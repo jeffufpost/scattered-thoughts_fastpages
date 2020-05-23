@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Epidemic modeling - Part 3 | Scattered Thoughts</title>
+<meta name="generator" content="Jekyll v4.0.1" />
+<meta property="og:title" content="Epidemic modeling - Part 3" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Examining the major flaw of the deterministic SEIR model" />
+<meta property="og:description" content="Examining the major flaw of the deterministic SEIR model" />
+<link rel="canonical" href="https://jeffufpost.github.io/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html" />
+<meta property="og:url" content="https://jeffufpost.github.io/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html" />
+<meta property="og:site_name" content="Scattered Thoughts" />
+<meta property="og:image" content="https://jeffufpost.github.io/scattered-thoughts/images/proba_distrib.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-25T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Examining the major flaw of the deterministic SEIR model","headline":"Epidemic modeling - Part 3","@type":"BlogPosting","dateModified":"2020-03-25T00:00:00-05:00","datePublished":"2020-03-25T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jeffufpost.github.io/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html"},"image":"https://jeffufpost.github.io/scattered-thoughts/images/proba_distrib.png","url":"https://jeffufpost.github.io/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/scattered-thoughts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jeffufpost.github.io/scattered-thoughts/feed.xml" title="Scattered Thoughts" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-166290391-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/scattered-thoughts/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Epidemic modeling - Part 3 | Scattered Thoughts</title>
+<meta name="generator" content="Jekyll v4.0.1" />
+<meta property="og:title" content="Epidemic modeling - Part 3" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Examining the major flaw of the deterministic SEIR model" />
+<meta property="og:description" content="Examining the major flaw of the deterministic SEIR model" />
+<link rel="canonical" href="https://jeffufpost.github.io/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html" />
+<meta property="og:url" content="https://jeffufpost.github.io/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html" />
+<meta property="og:site_name" content="Scattered Thoughts" />
+<meta property="og:image" content="https://jeffufpost.github.io/scattered-thoughts/images/proba_distrib.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-25T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Examining the major flaw of the deterministic SEIR model","headline":"Epidemic modeling - Part 3","@type":"BlogPosting","dateModified":"2020-03-25T00:00:00-05:00","datePublished":"2020-03-25T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jeffufpost.github.io/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html"},"image":"https://jeffufpost.github.io/scattered-thoughts/images/proba_distrib.png","url":"https://jeffufpost.github.io/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://jeffufpost.github.io/scattered-thoughts/feed.xml" title="Scattered Thoughts" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-166290391-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/scattered-thoughts/">Scattered Thoughts</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/scattered-thoughts/about/">About Me</a><a class="page-link" href="/scattered-thoughts/search/">Search</a><a class="page-link" href="/scattered-thoughts/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Epidemic modeling - Part 3</h1><p class="page-description">Examining the major flaw of the deterministic SEIR model</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-25T00:00:00-05:00" itemprop="datePublished">
+        Mar 25, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#probability distributions">probability distributions</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#modeling">modeling</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#SEIR">SEIR</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#epidemiology">epidemiology</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/jeffufpost/scattered-thoughts/tree/master/_notebooks/2020-03-25-proba-distrib.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/scattered-thoughts/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/jeffufpost/scattered-thoughts/master?filepath=_notebooks%2F2020-03-25-proba-distrib.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/scattered-thoughts/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/jeffufpost/scattered-thoughts/blob/master/_notebooks/2020-03-25-proba-distrib.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/scattered-thoughts/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Motivation-for-write-up">Motivation for write-up </a></li>
+<li class="toc-entry toc-h2"><a href="#implications-of-averaging-e--i-and-i--r">Implications of averaging E → I and I → R</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#e--i">E → I</a></li>
+<li class="toc-entry toc-h3"><a href="#i--r">I → R</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Discussion">Discussion </a></li>
+</ul><body>
+<!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-03-25-proba-distrib.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/scattered-thoughts/images/copied_from_nb/my_icons/proba_distrib.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Motivation-for-write-up">
+<a class="anchor" href="#Motivation-for-write-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>Motivation for write-up<a class="anchor-link" href="#Motivation-for-write-up"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is the 3rd part of a multi-part series blog post on modeling in epidemiology.</p>
+<p>The COVID-19 pandemic has brought a lot of attention to study of epidemiology and more specifically to the various mathematical models that are used to inform public health policies. Everyone has been trying to understand the growth or slowing of new cases and trying to predict the necessary sanitary resources. This blog post attempts to explain the foundations for some of the most used models and enlighten the reader on two key points.</p>
+<p>After introducing the concepts of compartmentalization and disease dynamics in the first blog post, the second part looked at a deterministic numerical solution for the SEIR model discussed, and the effects of the parameters $\beta$, $\sigma$, and $\gamma$.</p>
+<p>While arguments can be made that the compartments themselves don't reflect the reality of COVID-19, this is not the point of this discussion; I want to focus on the idea that the population level dynamics forget about the individual progression of the disease.</p>
+<p>With this mind, this third part is going to discuss the problems that arise when averaging the times from E → I ($\sigma$) and I → R ($\gamma$) on the smimulations.</p>
+<p>Let's have a look at the individual progression of disease to understand what is wrong.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>
+<a class="anchor" href="#implications-of-averaging-e--i-and-i--r" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implications of averaging E → I and I → R</h2>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's first look at what happens if we average times from E → I and I → R to obtain $\sigma$ and $\gamma$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3>
+<a class="anchor" href="#e--i" aria-hidden="true"><span class="octicon octicon-link"></span></a>E → I</h3>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the numerical model in part 2 and in order to see the distribution of E → I, we set the initial number of E to be the same as the population, and plot the number of E over time as below:</p>
+<p>(while the analytic solution is the exponential distribution, numerically it only approximates it)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="c1"># Define parameters</span>
+<span class="n">days</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">init</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.2</span>   <span class="c1"># 1/5 --&gt; 5 days on average to go from E --&gt; I</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">1.75</span>
+<span class="n">gam</span> <span class="o">=</span> <span class="mf">0.1</span>     <span class="c1"># 1/10 --&gt; 10 days on average to go from I --&gt; R</span>
+<span class="n">parms</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gam</span>
+
+<span class="c1"># Plot simulation</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span>       
+    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'E to I'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">days</span><span class="p">,</span><span class="n">days</span><span class="o">*</span><span class="mi">10</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">seir_model</span><span class="p">(</span><span class="n">init</span><span class="p">,</span> <span class="n">parms</span><span class="p">,</span> <span class="n">days</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">N</span><span class="p">)),</span> 
+    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'$</span><span class="se">\\</span><span class="s1">text{Exponential distribution with} Scale = </span><span class="se">\\</span><span class="s1">frac</span><span class="si">{1}</span><span class="s1">{\sigma}$'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">days</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">expon</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">days</span><span class="p">),</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">sigma</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Number of E moving to I over time when all population is exposed on day 0'</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">'Days'</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">'Percent of exposed having become infectious'</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">traceorder</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+<meta charset="utf-8">
+
+    <div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>
+                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>    
+            <div id="2461910e-7c22-40e5-a317-cce11faef856" class="plotly-graph-div" style="height:525px; width:100%;"></div>
+            <script type="text/javascript">
+                
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    
+                if (document.getElementById("2461910e-7c22-40e5-a317-cce11faef856")) {
+                    Plotly.newPlot(
+                        '2461910e-7c22-40e5-a317-cce11faef856',
+                        [{"name": "E to I", "type": "scatter", "x": [0.0, 0.10033444816053512, 0.20066889632107024, 0.3010033444816054, 0.4013377926421405, 0.5016722408026756, 0.6020066889632107, 0.7023411371237458, 0.802675585284281, 0.9030100334448161, 1.0033444816053512, 1.1036789297658862, 1.2040133779264215, 1.3043478260869565, 1.4046822742474916, 1.5050167224080269, 1.605351170568562, 1.705685618729097, 1.8060200668896322, 1.9063545150501673, 2.0066889632107023, 2.1070234113712374, 2.2073578595317724, 2.307692307692308, 2.408026755852843, 2.508361204013378, 2.608695652173913, 2.709030100334448, 2.809364548494983, 2.9096989966555187, 3.0100334448160537, 3.1103678929765888, 3.210702341137124, 3.311036789297659, 3.411371237458194, 3.511705685618729, 3.6120401337792645, 3.7123745819397995, 3.8127090301003346, 3.9130434782608696, 4.013377926421405, 4.11371237458194, 4.214046822742475, 4.31438127090301, 4.414715719063545, 4.51505016722408, 4.615384615384616, 4.7157190635451505, 4.816053511705686, 4.916387959866221, 5.016722408026756, 5.117056856187291, 5.217391304347826, 5.317725752508362, 5.418060200668896, 5.518394648829432, 5.618729096989966, 5.719063545150502, 5.819397993311037, 5.919732441471572, 6.0200668896321075, 6.120401337792642, 6.2207357859531776, 6.321070234113712, 6.421404682274248, 6.521739130434783, 6.622073578595318, 6.722408026755853, 6.822742474916388, 6.923076923076923, 7.023411371237458, 7.1237458193979935, 7.224080267558529, 7.3244147157190636, 7.424749163879599, 7.525083612040134, 7.625418060200669, 7.725752508361205, 7.826086956521739, 7.926421404682275, 8.02675585284281, 8.127090301003344, 8.22742474916388, 8.327759197324415, 8.42809364548495, 8.528428093645486, 8.62876254180602, 8.729096989966555, 8.82943143812709, 8.929765886287626, 9.03010033444816, 9.130434782608695, 9.230769230769232, 9.331103678929766, 9.431438127090301, 9.531772575250836, 9.632107023411372, 9.732441471571907, 9.832775919732441, 9.933110367892978, 10.033444816053512, 10.133779264214047, 10.234113712374581, 10.334448160535118, 10.434782608695652, 10.535117056856187, 10.635451505016723, 10.735785953177258, 10.836120401337793, 10.936454849498329, 11.036789297658864, 11.137123745819398, 11.237458193979933, 11.33779264214047, 11.438127090301004, 11.538461538461538, 11.638795986622075, 11.73913043478261, 11.839464882943144, 11.939799331103679, 12.040133779264215, 12.14046822742475, 12.240802675585284, 12.34113712374582, 12.441471571906355, 12.54180602006689, 12.642140468227424, 12.74247491638796, 12.842809364548495, 12.94314381270903, 13.043478260869566, 13.143812709030101, 13.244147157190636, 13.34448160535117, 13.444816053511706, 13.545150501672241, 13.645484949832776, 13.745819397993312, 13.846153846153847, 13.946488294314381, 14.046822742474916, 14.147157190635452, 14.247491638795987, 14.347826086956522, 14.448160535117058, 14.548494983277592, 14.648829431438127, 14.749163879598662, 14.849498327759198, 14.949832775919733, 15.050167224080267, 15.150501672240804, 15.250836120401338, 15.351170568561873, 15.45150501672241, 15.551839464882944, 15.652173913043478, 15.752508361204013, 15.85284280936455, 15.953177257525084, 16.05351170568562, 16.153846153846153, 16.254180602006688, 16.354515050167226, 16.45484949832776, 16.555183946488295, 16.65551839464883, 16.755852842809364, 16.8561872909699, 16.956521739130434, 17.056856187290972, 17.157190635451506, 17.25752508361204, 17.357859531772576, 17.45819397993311, 17.558528428093645, 17.65886287625418, 17.759197324414718, 17.859531772575252, 17.959866220735787, 18.06020066889632, 18.160535117056856, 18.26086956521739, 18.361204013377925, 18.461538461538463, 18.561872909698998, 18.662207357859533, 18.762541806020067, 18.862876254180602, 18.963210702341136, 19.06354515050167, 19.16387959866221, 19.264214046822744, 19.36454849498328, 19.464882943143813, 19.565217391304348, 19.665551839464882, 19.765886287625417, 19.866220735785955, 19.96655518394649, 20.066889632107024, 20.16722408026756, 20.267558528428093, 20.367892976588628, 20.468227424749163, 20.5685618729097, 20.668896321070235, 20.76923076923077, 20.869565217391305, 20.96989966555184, 21.070234113712374, 21.17056856187291, 21.270903010033447, 21.37123745819398, 21.471571906354516, 21.57190635451505, 21.672240802675585, 21.77257525083612, 21.872909698996658, 21.973244147157192, 22.073578595317727, 22.17391304347826, 22.274247491638796, 22.37458193979933, 22.474916387959865, 22.575250836120404, 22.67558528428094, 22.775919732441473, 22.876254180602007, 22.976588628762542, 23.076923076923077, 23.17725752508361, 23.27759197324415, 23.377926421404684, 23.47826086956522, 23.578595317725753, 23.678929765886288, 23.779264214046822, 23.879598662207357, 23.979933110367895, 24.08026755852843, 24.180602006688964, 24.2809364548495, 24.381270903010034, 24.48160535117057, 24.581939799331103, 24.68227424749164, 24.782608695652176, 24.88294314381271, 24.983277591973245, 25.08361204013378, 25.183946488294314, 25.28428093645485, 25.384615384615387, 25.48494983277592, 25.585284280936456, 25.68561872909699, 25.785953177257525, 25.88628762541806, 25.986622073578594, 26.086956521739133, 26.187290969899667, 26.287625418060202, 26.387959866220736, 26.48829431438127, 26.588628762541806, 26.68896321070234, 26.78929765886288, 26.889632107023413, 26.989966555183948, 27.090301003344482, 27.190635451505017, 27.29096989966555, 27.391304347826086, 27.491638795986624, 27.59197324414716, 27.692307692307693, 27.792642140468228, 27.892976588628763, 27.993311036789297, 28.093645484949832, 28.19397993311037, 28.294314381270905, 28.39464882943144, 28.494983277591974, 28.59531772575251, 28.695652173913043, 28.795986622073578, 28.896321070234116, 28.99665551839465, 29.096989966555185, 29.19732441471572, 29.297658862876254, 29.39799331103679, 29.498327759197323, 29.59866220735786, 29.698996655518396, 29.79933110367893, 29.899665551839465, 30.0], "y": [0.0, 2.0000000000000018, 3.959999999999997, 5.880799999999997, 7.763184000000001, 9.607920319999996, 11.415761913599997, 13.187446675327996, 14.923697741821428, 16.62522378698501, 18.29271931124531, 19.926864925020404, 21.528327626519996, 23.0977610739896, 24.635805852509808, 26.14308973545961, 27.620227940750418, 29.06782338193541, 30.486466914296706, 31.876737576010772, 33.239202824490555, 34.57441876800075, 35.88293039264073, 37.165271784787926, 38.42196634909216, 39.653527022110325, 40.860456481668116, 42.043247352034754, 43.202382404994054, 44.338334756894184, 45.4515680617563, 46.54253670052116, 47.61168596651074, 48.659452247180525, 49.686263202236916, 50.692537938192174, 51.678687179428316, 52.645113435839754, 53.59221116712296, 54.52036694378051, 55.42995960490489, 56.32136041280679, 57.194933204550644, 58.05103454045963, 58.890013849650444, 59.71221357265743, 60.5179693012043, 61.30760991518021, 62.081457716876606, 62.83982856253907, 63.583031991288294, 64.31137135146253, 65.02514392443328, 65.72464104594462, 66.41014822502572, 67.08194526052522, 67.7403063553147, 68.38550022820841, 69.01779022364425, 69.63743441917136, 70.24468573078792, 70.83979201617217, 71.42299617584872, 71.99453625233176, 72.55464552728512, 73.10355261673942, 73.64148156440463, 74.16865193311655, 74.68527889445421, 75.19157331656513, 75.68774185023382, 76.17398701322915, 76.65050727296456, 77.11749712750526, 77.57514718495516, 78.02364424125606, 78.46317135643093, 78.89390792930232, 79.31602977071628, 79.72970917530195, 80.1351149917959, 80.53241269196, 80.92176443812079, 81.30332914935838, 81.67726256637121, 82.04371731504378, 82.40284296874292, 82.75478610936806, 83.09969038718069, 83.43769657943709, 83.76894264784833, 84.09356379489137, 84.41169251899355, 84.72345866861367, 85.0289894952414, 85.32840970533657, 85.62184151122985, 85.90940468100524, 86.19121658738513, 86.46739225563744, 86.73804441052468, 87.00328352231419, 87.2632178518679, 87.51795349483055, 87.76759442493393, 88.01224253643525, 88.25199768570656, 88.48695773199242, 88.71721857735257, 88.94287420580552, 89.1640167216894, 89.38073638725562, 89.59312165951052, 89.8012592263203, 90.0052340417939, 90.20512936095801, 90.40102677373886, 90.59300623826407, 90.7811461134988, 90.96552319122883, 91.14621272740425, 91.32328847285616, 91.49682270339903, 91.66688624933106, 91.83354852434444, 91.99687755385754, 92.1569400027804, 92.31380120272479, 92.4675251786703, 92.61817467509688, 92.76581118159496, 92.91049495796305, 93.05228505880379, 93.19123935762771, 93.32741457047516, 93.46086627906566, 93.59164895348434, 93.71981597441466, 93.84541965492636, 93.96851126182784, 94.08914103659127, 94.20735821585944, 94.32321105154227, 94.43674683051142, 94.54801189390119, 94.65705165602316, 94.7639106229027, 94.86863241044465, 94.97125976223575, 95.07183456699104, 95.17039787565122, 95.2669899181382, 95.36165011977543, 95.45441711737992, 95.54532877503232, 95.63442219953167, 95.72173375554104, 95.80729908043023, 95.89115309882162, 95.97333003684518, 96.05386343610827, 96.13278616738612, 96.21013044403838, 96.28592783515762, 96.36020927845448, 96.43300509288538, 96.50434499102768, 96.57425809120713, 96.64277292938299, 96.70991747079532, 96.77571912137941, 96.84020473895183, 96.90340064417279, 96.96533263128934, 97.02602597866354, 97.08550545909027, 97.14379534990847, 97.2009194429103, 97.2569010540521, 97.31176303297106, 97.36552777231164, 97.4182172168654, 97.4698528725281, 97.52045581507754, 97.57004669877598, 97.61864576480046, 97.66627284950445, 97.71294739251437, 97.75868844466407, 97.8035146757708, 97.84744438225538, 97.89049549461028, 97.93268558471806, 97.9740318730237, 98.01455123556323, 98.05426021085196, 98.09317500663492, 98.13131150650223, 98.16868527637219, 98.20531157084473, 98.24120533942784, 98.27638123263928, 98.3108536079865, 98.34463653582677, 98.37774380511024, 98.41018892900803, 98.44198515042787, 98.47314544741931, 98.50368253847093, 98.5336088877015, 98.56293670994748, 98.59167797574852, 98.61984441623356, 98.64744752790888, 98.6744985773507, 98.7010086058037, 98.72698843368762, 98.75244866501387, 98.7773996917136, 98.80185169787931, 98.82581466392173, 98.8492983706433, 98.87231240323044, 98.89486615516583, 98.91696883206251, 98.93862945542125, 98.95985686631283, 98.98065972898658, 99.00104653440684, 99.0210256037187, 99.04060509164432, 99.05979298981144, 99.07859713001523, 99.09702518741491, 99.11508468366661, 99.13278298999329, 99.15012733019341, 99.16712478358954, 99.18378228791775, 99.2001066421594, 99.21610450931621, 99.23178241912989, 99.24714677074729, 99.26220383533234, 99.2769597586257, 99.29142056345319, 99.30559215218412, 99.31948030914045, 99.33309070295763, 99.34642888889847, 99.35950031112051, 99.3723103048981, 99.38486409880014, 99.39716681682414, 99.40922348048765, 99.4210390108779, 99.43261823066034, 99.44396586604714, 99.45508654872619, 99.46598481775166, 99.47666512139664, 99.4871318189687, 99.49738918258933, 99.50744139893753, 99.51729257095879, 99.52694671953961, 99.53640778514881, 99.54567962944584, 99.55476603685692, 99.56367071611979, 99.5723973017974, 99.58094935576145, 99.58933036864622, 99.59754376127329, 99.60559288604782, 99.61348102832687, 99.62121140776034, 99.62878717960513, 99.63621143601303, 99.64348720729276, 99.6506174631469, 99.65760511388397, 99.6644530116063, 99.67116395137417, 99.67774067234669, 99.68418585889974, 99.69050214172175, 99.69669209888733, 99.70275825690958, 99.70870309177138, 99.71452902993595, 99.72023844933723, 99.72583368035049, 99.73131700674348, 99.73669066660861, 99.74195685327643, 99.74711771621091, 99.75217536188669, 99.75713185464896, 99.76198921755598]}, {"name": "$\\text{Exponential distribution with} Scale = \\frac{1}{\\sigma}$", "type": "scatter", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "y": [0.0, 18.126924692201815, 32.967995396436066, 45.11883639059736, 55.067103588277845, 63.212055882855765, 69.88057880877977, 75.34030360583935, 79.81034820053446, 83.47011117784135, 86.46647167633873, 88.9196841637666, 90.92820467105875, 92.57264217856661, 93.9189937374782, 95.0212931632136, 95.92377960216338, 96.6626730039674, 97.26762775527075, 97.76292281438343, 98.16843611112658, 98.50044231795223, 98.77226600969315, 98.99481642553664, 99.17702529509799, 99.32620530009146, 99.44834355792392, 99.54834190573874, 99.63021362835171, 99.69724452546241]}],
+                        {"legend": {"traceorder": "normal", "x": 0.6, "y": 0}, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"text": "Number of E moving to I over time when all population is exposed on day 0"}, "xaxis": {"title": {"text": "Days"}}, "yaxis": {"title": {"text": "Percent of exposed having become infectious"}}},
+                        {"responsive": true}
+                    ).then(function(){
+                            
+var gd = document.getElementById('2461910e-7c22-40e5-a317-cce11faef856');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                
+            </script>
+        </div>
+
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The time period from exposed to infectious is not instant. Once a person is exposed, it takes some days for them to become infectious.</p>
+<p>The plot above confirms the numerical model from part 2 assumes people go from E → I according to the exponential distribution.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For COVID-19, research has shown that the mean time from E → I is 5 days, and that 95% go from E → I within 14 days.</p>
+<p>While the graph above shows some closeness:</p>
+<ul>
+<li>the median is 3.3 days</li>
+<li>the mean is about 5 days</li>
+<li>95% within 15 days</li>
+</ul>
+<p>But:</p>
+<ul>
+<li>About 18% of the exposed become infectious after 1 day</li>
+</ul>
+<p>While the above may be close to reality for COVID-19, this last point is not. We know this is not true in reality because people tend not to become infectious straight away.</p>
+<p>A likelier distribution of time spend in E state before going to I state is either a gamma distribution (Weibull distribution could also have been used with different parameters).</p>
+<p>Let's see the difference.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="n">days</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">cdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'Exponential'</span><span class="p">:</span> <span class="n">expon</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">days</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> 
+    <span class="s1">'Gamma'</span><span class="p">:</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">days</span><span class="p">,</span><span class="mf">1.8</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> 
+    <span class="c1">#'Weibull': weibull_min.cdf(days,1.1, loc=0.8, scale=5)</span>
+    <span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span>       
+    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Expon E --&gt; I'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">days</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">cdf</span><span class="o">.</span><span class="n">Exponential</span><span class="p">),</span>
+    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Gamma E --&gt; I'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">days</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">cdf</span><span class="o">.</span><span class="n">Gamma</span><span class="p">),</span>
+    <span class="c1">#go.Scatter(name='Weibull', x=days, y=cdf.Weibull)</span>
+<span class="p">])</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Number of E moving to I over time when all population is exposed on day 0'</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">'Days'</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">'Percent of exposed having become infectious'</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">traceorder</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+<meta charset="utf-8">
+
+    <div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>
+                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>    
+            <div id="8ac21352-defc-4a28-bfd5-937d00cd1cf7" class="plotly-graph-div" style="height:525px; width:100%;"></div>
+            <script type="text/javascript">
+                
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    
+                if (document.getElementById("8ac21352-defc-4a28-bfd5-937d00cd1cf7")) {
+                    Plotly.newPlot(
+                        '8ac21352-defc-4a28-bfd5-937d00cd1cf7',
+                        [{"name": "Expon E --> I", "type": "scatter", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "y": [0.0, 0.18126924692201815, 0.3296799539643607, 0.4511883639059736, 0.5506710358827784, 0.6321205588285577, 0.6988057880877978, 0.7534030360583935, 0.7981034820053446, 0.8347011117784134, 0.8646647167633873, 0.8891968416376661, 0.9092820467105875, 0.9257264217856661, 0.9391899373747821, 0.950212931632136, 0.9592377960216338, 0.9666267300396739, 0.9726762775527075, 0.9776292281438344, 0.9816843611112658, 0.9850044231795223, 0.9877226600969315, 0.9899481642553665, 0.99177025295098, 0.9932620530009145, 0.9944834355792392, 0.9954834190573874, 0.996302136283517, 0.9969724452546241]}, {"name": "Gamma E --> I", "type": "scatter", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "y": [0.0, 0.004365966561802398, 0.08907631597374521, 0.21659465467456382, 0.34973150917627266, 0.47280561451368597, 0.5797500076253242, 0.6692491092001498, 0.7422775403670964, 0.8007919828617982, 0.8470381742131279, 0.8831987322218322, 0.911231016528329, 0.9328092858771869, 0.9493218397850104, 0.9618948973837677, 0.9714273234351924, 0.9786275794517647, 0.9840485211110392, 0.9881180967286233, 0.9911653536782338, 0.9934418709485356, 0.9951390738855553, 0.9964020133628283, 0.9973402031891686, 0.9980360638306917, 0.9985514505392908, 0.9989326680807351, 0.9992143019838513, 0.9994221319841503]}],
+                        {"legend": {"traceorder": "normal", "x": 0.6, "y": 0}, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"text": "Number of E moving to I over time when all population is exposed on day 0"}, "xaxis": {"title": {"text": "Days"}}, "yaxis": {"title": {"text": "Percent of exposed having become infectious"}}},
+                        {"responsive": true}
+                    ).then(function(){
+                            
+var gd = document.getElementById('8ac21352-defc-4a28-bfd5-937d00cd1cf7');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                
+            </script>
+        </div>
+
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Median:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"95th quantile:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.95</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Median:
+Exponential     7.527047
+Gamma          11.283579
+dtype: float64
+95th quantile:
+Exponential    32.762962
+Gamma          16.870541
+Name: 0.95, dtype: float64
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The gamma distribution matches very closely the actual COVID-19 data we have seen published. The exponential distribution does not.</p>
+<p>However, we have seen changing $\sigma$ does not alter much the total number of people infected, so this may have negligible impact on the overall results for the simulations.</p>
+<p>The real problem comes from $\gamma$ below.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3>
+<a class="anchor" href="#i--r" aria-hidden="true"><span class="octicon octicon-link"></span></a>I → R</h3>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The same discussion above applies for the time from I → R here.</p>
+<p>From the discussion above, we know the numerical model in part 2 approximates the time from I → R as an exponential distribution.</p>
+<p>Let's verifiy this in the plot below:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="c1"># Define parameters</span>
+<span class="n">days</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">init</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="mi">0</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">5</span>   <span class="c1"># 1/5 --&gt; 5 days on average to go from E --&gt; I</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">1.75</span>
+<span class="n">gam</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">11</span>     <span class="c1"># 1/11 --&gt; 11 days on average to go from I --&gt; R</span>
+<span class="n">parms</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gam</span>
+
+<span class="c1"># Plot simulation</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span>       
+    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'I to R'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">days</span><span class="p">,</span><span class="n">days</span><span class="o">*</span><span class="mi">10</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">seir_model</span><span class="p">(</span><span class="n">init</span><span class="p">,</span> <span class="n">parms</span><span class="p">,</span> <span class="n">days</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">N</span><span class="p">)),</span> 
+    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'$</span><span class="se">\\</span><span class="s1">text{Exponential distribution with} Scale = </span><span class="se">\\</span><span class="s1">frac</span><span class="si">{1}</span><span class="s1">{\gamma}$'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">days</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="mi">100</span><span class="o">*</span><span class="n">expon</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">days</span><span class="p">),</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">gam</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Number of I moving to R over time when all population is infectious on day 0'</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">'Days'</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">'Percent of infectious having become recovered'</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">traceorder</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+<meta charset="utf-8">
+
+    <div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>
+                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>    
+            <div id="c0c2af07-cc8c-454b-a299-24641dbf4733" class="plotly-graph-div" style="height:525px; width:100%;"></div>
+            <script type="text/javascript">
+                
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    
+                if (document.getElementById("c0c2af07-cc8c-454b-a299-24641dbf4733")) {
+                    Plotly.newPlot(
+                        'c0c2af07-cc8c-454b-a299-24641dbf4733',
+                        [{"name": "I to R", "type": "scatter", "x": [0.0, 0.10033444816053512, 0.20066889632107024, 0.3010033444816054, 0.4013377926421405, 0.5016722408026756, 0.6020066889632107, 0.7023411371237458, 0.802675585284281, 0.9030100334448161, 1.0033444816053512, 1.1036789297658862, 1.2040133779264215, 1.3043478260869565, 1.4046822742474916, 1.5050167224080269, 1.605351170568562, 1.705685618729097, 1.8060200668896322, 1.9063545150501673, 2.0066889632107023, 2.1070234113712374, 2.2073578595317724, 2.307692307692308, 2.408026755852843, 2.508361204013378, 2.608695652173913, 2.709030100334448, 2.809364548494983, 2.9096989966555187, 3.0100334448160537, 3.1103678929765888, 3.210702341137124, 3.311036789297659, 3.411371237458194, 3.511705685618729, 3.6120401337792645, 3.7123745819397995, 3.8127090301003346, 3.9130434782608696, 4.013377926421405, 4.11371237458194, 4.214046822742475, 4.31438127090301, 4.414715719063545, 4.51505016722408, 4.615384615384616, 4.7157190635451505, 4.816053511705686, 4.916387959866221, 5.016722408026756, 5.117056856187291, 5.217391304347826, 5.317725752508362, 5.418060200668896, 5.518394648829432, 5.618729096989966, 5.719063545150502, 5.819397993311037, 5.919732441471572, 6.0200668896321075, 6.120401337792642, 6.2207357859531776, 6.321070234113712, 6.421404682274248, 6.521739130434783, 6.622073578595318, 6.722408026755853, 6.822742474916388, 6.923076923076923, 7.023411371237458, 7.1237458193979935, 7.224080267558529, 7.3244147157190636, 7.424749163879599, 7.525083612040134, 7.625418060200669, 7.725752508361205, 7.826086956521739, 7.926421404682275, 8.02675585284281, 8.127090301003344, 8.22742474916388, 8.327759197324415, 8.42809364548495, 8.528428093645486, 8.62876254180602, 8.729096989966555, 8.82943143812709, 8.929765886287626, 9.03010033444816, 9.130434782608695, 9.230769230769232, 9.331103678929766, 9.431438127090301, 9.531772575250836, 9.632107023411372, 9.732441471571907, 9.832775919732441, 9.933110367892978, 10.033444816053512, 10.133779264214047, 10.234113712374581, 10.334448160535118, 10.434782608695652, 10.535117056856187, 10.635451505016723, 10.735785953177258, 10.836120401337793, 10.936454849498329, 11.036789297658864, 11.137123745819398, 11.237458193979933, 11.33779264214047, 11.438127090301004, 11.538461538461538, 11.638795986622075, 11.73913043478261, 11.839464882943144, 11.939799331103679, 12.040133779264215, 12.14046822742475, 12.240802675585284, 12.34113712374582, 12.441471571906355, 12.54180602006689, 12.642140468227424, 12.74247491638796, 12.842809364548495, 12.94314381270903, 13.043478260869566, 13.143812709030101, 13.244147157190636, 13.34448160535117, 13.444816053511706, 13.545150501672241, 13.645484949832776, 13.745819397993312, 13.846153846153847, 13.946488294314381, 14.046822742474916, 14.147157190635452, 14.247491638795987, 14.347826086956522, 14.448160535117058, 14.548494983277592, 14.648829431438127, 14.749163879598662, 14.849498327759198, 14.949832775919733, 15.050167224080267, 15.150501672240804, 15.250836120401338, 15.351170568561873, 15.45150501672241, 15.551839464882944, 15.652173913043478, 15.752508361204013, 15.85284280936455, 15.953177257525084, 16.05351170568562, 16.153846153846153, 16.254180602006688, 16.354515050167226, 16.45484949832776, 16.555183946488295, 16.65551839464883, 16.755852842809364, 16.8561872909699, 16.956521739130434, 17.056856187290972, 17.157190635451506, 17.25752508361204, 17.357859531772576, 17.45819397993311, 17.558528428093645, 17.65886287625418, 17.759197324414718, 17.859531772575252, 17.959866220735787, 18.06020066889632, 18.160535117056856, 18.26086956521739, 18.361204013377925, 18.461538461538463, 18.561872909698998, 18.662207357859533, 18.762541806020067, 18.862876254180602, 18.963210702341136, 19.06354515050167, 19.16387959866221, 19.264214046822744, 19.36454849498328, 19.464882943143813, 19.565217391304348, 19.665551839464882, 19.765886287625417, 19.866220735785955, 19.96655518394649, 20.066889632107024, 20.16722408026756, 20.267558528428093, 20.367892976588628, 20.468227424749163, 20.5685618729097, 20.668896321070235, 20.76923076923077, 20.869565217391305, 20.96989966555184, 21.070234113712374, 21.17056856187291, 21.270903010033447, 21.37123745819398, 21.471571906354516, 21.57190635451505, 21.672240802675585, 21.77257525083612, 21.872909698996658, 21.973244147157192, 22.073578595317727, 22.17391304347826, 22.274247491638796, 22.37458193979933, 22.474916387959865, 22.575250836120404, 22.67558528428094, 22.775919732441473, 22.876254180602007, 22.976588628762542, 23.076923076923077, 23.17725752508361, 23.27759197324415, 23.377926421404684, 23.47826086956522, 23.578595317725753, 23.678929765886288, 23.779264214046822, 23.879598662207357, 23.979933110367895, 24.08026755852843, 24.180602006688964, 24.2809364548495, 24.381270903010034, 24.48160535117057, 24.581939799331103, 24.68227424749164, 24.782608695652176, 24.88294314381271, 24.983277591973245, 25.08361204013378, 25.183946488294314, 25.28428093645485, 25.384615384615387, 25.48494983277592, 25.585284280936456, 25.68561872909699, 25.785953177257525, 25.88628762541806, 25.986622073578594, 26.086956521739133, 26.187290969899667, 26.287625418060202, 26.387959866220736, 26.48829431438127, 26.588628762541806, 26.68896321070234, 26.78929765886288, 26.889632107023413, 26.989966555183948, 27.090301003344482, 27.190635451505017, 27.29096989966555, 27.391304347826086, 27.491638795986624, 27.59197324414716, 27.692307692307693, 27.792642140468228, 27.892976588628763, 27.993311036789297, 28.093645484949832, 28.19397993311037, 28.294314381270905, 28.39464882943144, 28.494983277591974, 28.59531772575251, 28.695652173913043, 28.795986622073578, 28.896321070234116, 28.99665551839465, 29.096989966555185, 29.19732441471572, 29.297658862876254, 29.39799331103679, 29.498327759197323, 29.59866220735786, 29.698996655518396, 29.79933110367893, 29.899665551839465, 30.0], "y": [0.0, 0.9090909090909038, 1.8099173553718928, 2.7025544703230486, 3.5870767024110184, 4.463557823298181, 5.332070933995469, 6.192688470959151, 7.045482212132248, 7.8905232829310386, 8.727882162177124, 9.557628687975505, 10.379832063539363, 11.194560862961733, 12.001883036934814, 12.80186591841722, 13.594576228249789, 14.380080080720258, 15.158442989077336, 15.929729870994812, 16.694005053985762, 17.451332280767705, 18.20177471457891, 18.94539494444638, 19.682254990405955, 20.412416308674995, 21.135939796777947, 21.852885798625422, 22.563314109547004, 23.267283981278396, 23.964854126903134, 24.656082725749474, 25.341027428242658, 26.019745360713177, 26.69229313016124, 27.358726828977964, 28.01910203962361, 28.673473839263398, 29.321896804361003, 29.964425015230447, 30.60111206054653, 31.23201104181429, 31.8571745777978, 32.47665480890872, 33.090503401555004, 33.698771552449955, 34.30150999288224, 34.89876899294694, 35.490598365738336, 36.07704747150434, 36.658165221763404, 37.234000083383734, 37.804600082625704, 38.37001280914728, 38.930285419973224, 39.485464643428, 40.03559678303321, 40.58072772136927, 41.12090292390228, 41.656167442775896, 42.18656592056884, 42.71214259401822, 43.23294129770897, 43.749005467729795, 44.26037814529589, 44.76710198033865, 45.26921923506285, 45.76677178747137, 46.259801134858, 46.74834839726838, 47.232454320929584, 47.712159281648404, 48.18750328817887, 48.658525985559066, 49.12526665841761, 49.58776423425017, 50.04605728666609, 50.5001840386055, 50.95018236552726, 51.396089798567935, 51.83794352767186, 52.27578040469303, 52.70963694646855, 53.13954933786429, 53.56555343479279, 53.98768476720377, 54.405978542047364, 54.820469646210576, 55.231192649426845, 55.638181807159334, 56.041471063457884, 56.44109405379009, 56.837084107846536, 57.22947425232066, 57.618297213663205, 58.00358542081172, 58.385371007895245, 58.76368581691438, 59.13856140039697, 59.510029024029734, 59.878119669265814, 60.24286403590886, 60.604292544673335, 60.96243533972176, 61.31732229117883, 61.668982997622656, 62.017446788553364, 62.36274272683924, 62.704899611140696, 63.04394597831215, 63.37991010578203, 63.7128200139113, 64.04270346833027, 64.36958798225454, 64.69350081877951, 65.01446899315424, 65.33251927503466, 65.64767819071615, 65.95997202534602, 66.2694268251156, 66.57606839943273, 66.87992232307425, 67.18101393831904, 67.47936835706159, 67.77501046290648, 68.0679649132437, 68.35825614130512, 68.64590835820235, 68.93094555494596, 69.21339150444645, 69.49326976349694, 69.77060367473787, 70.0454163686039, 70.31773076525295, 70.58756957647792, 70.85495530760085, 71.11991025934994, 71.38245652971948, 71.64261601581293, 71.90041041566919, 72.15586123007218, 72.40898976434427, 72.65981713012295, 72.90836424712184, 73.15465184487526, 73.39870046446731, 73.64053046024488, 73.88016200151539, 74.11761507422888, 74.35290948264499, 74.58606485098458, 74.81710062506653, 75.04603607392957, 75.27289029143928, 75.49768219788075, 75.72043054153639, 75.94115390024969, 76.1598706829747, 76.3765991313113, 76.59135732102665, 76.80416316356276, 77.01503440753038, 77.2239886401892, 77.43104328891475, 77.63621562265189, 77.83952275335506, 78.04098163741546, 78.24060907707532, 78.43842172182917, 78.63443606981255, 78.82866846917788, 79.0211351194581, 79.21185207291757, 79.40083523589104, 79.58810037011021, 79.7736630940183, 79.95753888407269, 80.13974307603566, 80.32029086625352, 80.49919731292394, 80.6764773373519, 80.85214572519416, 81.0262171276924, 81.19870606289518, 81.36962691686888, 81.53899394489734, 81.706821272671, 81.8731228974649, 82.03791268930613, 82.20120439213062, 82.36301162492943, 82.52334788288462, 82.68222653849475, 82.83966084269025, 82.99566392593853, 83.15024879933908, 83.30342835570873, 83.45521537065683, 83.60562250365086, 83.75466229907222, 83.90234718726248, 84.04868948556008, 84.19370139932771, 84.3373950229702, 84.47978234094319, 84.6208752287528, 84.76068545394595, 84.8992246770919, 85.0365044527547, 85.17253623045693, 85.3073313556346, 85.44090107058338, 85.57325651539625, 85.70440872889264, 85.83436864953909, 85.96314711636145, 86.09075486984908, 86.21720255285045, 86.3425007114609, 86.46665979590217, 86.58969016139396, 86.71160206901766, 86.83240568657203, 86.95211108942138, 87.07072826133573, 87.1882670953236, 87.304737394457, 87.42014887268923, 87.53451115566477, 87.64783378152237, 87.76012620169034, 87.87139778167499, 87.98165780184158, 88.09091545818846, 88.19917986311403, 88.30646004617662, 88.41276495484776, 88.51810345525823, 88.6224843329377, 88.72591629354736, 88.82840796360601, 88.9299678912096, 89.03060454674406, 89.13032632359183, 89.22914153883191, 89.32705843393343, 89.42408517544314, 89.52022985566637, 89.61550049334214, 89.70990503431176, 89.80345135218165, 89.89614724898, 89.98800045580747, 90.07901863348194, 90.16920937317755, 90.25858019705775, 90.34713855890269, 90.43489184473084, 90.52184737341511, 90.60801239729315, 90.6933941027723, 90.77799961092892, 90.86183597810229, 90.94491019648319, 91.02722919469697, 91.10879983838154, 91.1896289307599, 91.26972321320753, 91.34908936581473, 91.4277340079437, 91.50566369878057, 91.58288493788255, 91.65940416571999, 91.73522776421345, 91.81036205726605, 91.8848133112909, 91.95858773573372, 92.03169148359068, 92.10413065192168, 92.17591128235874, 92.24703936161004, 92.31752082195904, 92.3873615417594, 92.45656734592524, 92.52514400641681, 92.59309724272212, 92.66043272233374, 92.72715606122162, 92.79327282430143, 92.85878852589869, 92.9237086302087, 92.98803855175225, 93.05178365582722, 93.11494925895607, 93.17754062932919, 93.23956298724438, 93.30102150554215, 93.36192131003723, 93.42226747994599, 93.48206504831012]}, {"name": "$\\text{Exponential distribution with} Scale = \\frac{1}{\\gamma}$", "type": "scatter", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "y": [0.0, 8.689928371773767, 16.624708192481947, 23.869961330312623, 30.48560716011213, 36.526358105971816, 42.04217212151905, 47.07866584999497, 51.67749188101746, 55.87668322400161, 59.71096784708669, 63.212055882855765, 66.40890187608376, 69.32794424234432, 71.99332391783511, 74.42708400868993, 76.64935209090866, 78.67850666855378, 80.53132916684899, 82.22314271718622, 83.76793888181518, 85.17849336624799, 86.46647167633873, 87.6425255938386, 88.71638126829431, 89.69691965382358, 90.59224995599261, 91.40977669621238, 92.15626094828693, 92.83787625354964]}],
+                        {"legend": {"traceorder": "normal", "x": 0.6, "y": 0}, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"text": "Number of I moving to R over time when all population is infectious on day 0"}, "xaxis": {"title": {"text": "Days"}}, "yaxis": {"title": {"text": "Percent of infectious having become recovered"}}},
+                        {"responsive": true}
+                    ).then(function(){
+                            
+var gd = document.getElementById('c0c2af07-cc8c-454b-a299-24641dbf4733');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                
+            </script>
+        </div>
+
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The time period from infectious to recovered is not instant. Once a person is infectious, it takes some days for them to become infectious.</p>
+<p>The plot above confirms the numerical model from part 2 assumes people go from I → R according to the exponential distribution.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For COVID-19, research has shown that the mean time from I → R is 11 days, and that 95% go from E → I within 17 days.</p>
+<p>While the exponential distribution above we have:</p>
+<ul>
+<li>the median is 7 days</li>
+<li>the mean is about 11 days</li>
+<li>95% within 33 days</li>
+<li>About 18% of the infectious become recovered after 1 day</li>
+</ul>
+<p>We know this is not even close to reality for COVID-19.
+We know this is not true in reality because people tend not to become recovered straight away.</p>
+<p>A likelier distribution of time spend in I state before going to R state is a gamma distribution again (Weibull distribution could also have been used with different parameters).</p>
+<p>Let's see the difference.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="n">days</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'Exponential'</span><span class="p">:</span> <span class="n">expon</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">),</span>
+    <span class="s1">'Gamma'</span><span class="p">:</span> <span class="n">gamma</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">),</span> 
+    <span class="c1">#'Weibull': weibull_min.rvs(2.5, loc=6, scale=6.7, size=10000)</span>
+    <span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="n">days</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">cdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">'Exponential'</span><span class="p">:</span> <span class="n">expon</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">days</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mi">11</span><span class="p">),</span>
+    <span class="s1">'Gamma'</span><span class="p">:</span> <span class="n">gamma</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">days</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.1</span><span class="p">),</span>
+    <span class="c1">#'Weibull': weibull_min.cdf(days,2.5, loc=6, scale=6.7)</span>
+    <span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span>       
+    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Expon I --&gt; R'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">days</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">cdf</span><span class="o">.</span><span class="n">Exponential</span><span class="p">),</span>
+    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Gamma I --&gt; R'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">days</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">cdf</span><span class="o">.</span><span class="n">Gamma</span><span class="p">),</span>
+    <span class="c1">#go.Scatter(name='Weibull I --&gt; R', x=days, y=cdf.Weibull)</span>
+<span class="p">])</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Number of I moving to R over time when all population is infectious on day 0'</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">'Days'</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">'Percent of infectious having become recovered'</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">traceorder</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+<meta charset="utf-8">
+
+    <div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>
+                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>    
+            <div id="34d9171f-e116-4c77-a067-518c31ff734e" class="plotly-graph-div" style="height:525px; width:100%;"></div>
+            <script type="text/javascript">
+                
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    
+                if (document.getElementById("34d9171f-e116-4c77-a067-518c31ff734e")) {
+                    Plotly.newPlot(
+                        '34d9171f-e116-4c77-a067-518c31ff734e',
+                        [{"name": "Expon I --> R", "type": "scatter", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "y": [0.0, 0.08689928371773767, 0.16624708192481946, 0.23869961330312622, 0.3048560716011213, 0.3652635810597182, 0.4204217212151905, 0.4707866584999497, 0.5167749188101746, 0.5587668322400161, 0.5971096784708669, 0.6321205588285577, 0.6640890187608376, 0.6932794424234432, 0.7199332391783511, 0.7442708400868994, 0.7664935209090866, 0.7867850666855378, 0.8053132916684899, 0.8222314271718622, 0.8376793888181518, 0.8517849336624799, 0.8646647167633873, 0.876425255938386, 0.8871638126829431, 0.8969691965382358, 0.9059224995599261, 0.9140977669621237, 0.9215626094828693, 0.9283787625354964]}, {"name": "Gamma I --> R", "type": "scatter", "x": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "y": [0.0, 0.0, 0.0, 0.0, 0.0, 4.620009824045381e-05, 0.002714463681064387, 0.02157221537944824, 0.07631374150324817, 0.17481680844370603, 0.3068375480789928, 0.4518980291706224, 0.5900859206988848, 0.7083245707697723, 0.8013750655705187, 0.869858579117517, 0.9175717616467494, 0.949328762610709, 0.969663632052111, 0.9822599524222383, 0.989841657217038, 0.994291776676868, 0.9968464984377706, 0.9982844822958756, 0.999079734821549, 0.9995126108855374, 0.9997448775041436, 0.9998678880390981, 0.9999322639814466, 0.9999655883893728]}],
+                        {"legend": {"traceorder": "normal", "x": 0.6, "y": 0}, "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"text": "Number of I moving to R over time when all population is infectious on day 0"}, "xaxis": {"title": {"text": "Days"}}, "yaxis": {"title": {"text": "Percent of infectious having become recovered"}}},
+                        {"responsive": true}
+                    ).then(function(){
+                            
+var gd = document.getElementById('34d9171f-e116-4c77-a067-518c31ff734e');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })
+                };
+                
+            </script>
+        </div>
+
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#collapse_hide</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Mean:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Median:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">median</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"95th Quantie:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.95</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Mean:
+Exponential    11.034861
+Gamma          11.700213
+dtype: float64
+Median:
+Exponential     7.608165
+Gamma          11.305786
+dtype: float64
+95th Quantie:
+Exponential    33.273754
+Gamma          17.136692
+Name: 0.95, dtype: float64
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see here the actual distribution is very important and averaging will not be enough to have a proper model.</p>
+<p>The gamma distribution matches very closely the actual COVID-19 data we have seen published. The exponential distribution does not.</p>
+<p>Furthermore, we have seen that changing $\gamma$ does alter the total number of people infected, so this may have an important impact on the overall results for the simulations.</p>
+<p>We need to build a new model to verify (see part 4).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Discussion">
+<a class="anchor" href="#Discussion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discussion<a class="anchor-link" href="#Discussion"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>While many models are assuming exponential distributions to model COVID-19, we can see here the probability distributions of $\sigma$ and especially $\gamma$ are intimately linked to the models and absolutely need to be accounted for properly.</p>
+<p>Note: the COVID-19 parameters may be wrong, the point is to have a qualitative discussion on the effect probability distributions rather than exact quantitative.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+</body>
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="jeffufpost/scattered-thoughts"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/scattered-thoughts/probability%20distributions/modeling/seir/epidemiology/2020/03/25/proba-distrib.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/scattered-thoughts/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/scattered-thoughts/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/scattered-thoughts/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Eclectic collection of thoughts, notebooks, simulations, calculations, and other things on a wide range of topics.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/jeffufpost" title="jeffufpost"><svg class="svg-icon grey"><use xlink:href="/scattered-thoughts/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/iamjeffreypost" title="iamjeffreypost"><svg class="svg-icon grey"><use xlink:href="/scattered-thoughts/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
