@@ -4,4 +4,4 @@ title: About Me
 permalink: /about/
 ---
 
-Enthusiast of all things data, governance, development, global health, skiing, football, and many other things.
+Electrical engineer by background, but enthusiast of all things data, electronics, governance, development, global health, skiing, football, and many other things.
