@@ -238,7 +238,7 @@ window.onload = wrap_img;
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This is the 1st part of a multi-part series blog post on modeling in epidemiology.</p>
-<p>The COVID-19 pandemic has brought a lot of attention to study of epidemiology and more specifically to the various mathematical models that are used to inform public health policies. Everyone has been trying to understand the growth or slowing of new cases and trying to predict the necessary sanitary resources. This blog post attempts to explain the foundations for some of the most used models and enlighten the reader on two key points.</p>
+<p>The COVID-19 pandemic has brought a lot of attention to the study of epidemiology and more specifically to the various mathematical models that are used to inform public health policies. Everyone has been trying to understand the growth or slowing of new cases and trying to predict the necessary sanitary resources. This blog post attempts to explain the foundations for some of the most used models and enlighten the reader on a few important points.</p>
 <p>In this first post I want to introduce the concept of compartmentalization and how it forms the basis for studying disease dynamics on the population level.</p>
 
 </div>
@@ -265,7 +265,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When modelling infectious diseases and pandemics in particular, a key ask is to predict the number of infected people at any given time in order to estimate the sanitary resources that will be necessary.</p>
+<p>When modelling infectious diseases, and pandemics in particular, a key ask is to predict the number of infected people at any given time in order to estimate the sanitary resources that will be necessary.</p>
 <p>From this simple qestion results the idea of compartmentalization of the population i.e. the division of the population into the two most basic categories:</p>
 <ul>
 <li>those that are infected</li>
@@ -273,23 +273,27 @@ window.onload = wrap_img;
 </ul>
 <p>This is ultimately the foundation for all compartmental models in epidemiology.</p>
 <p>The nuances between the models then come from how the above two groups are further compartmentalized. That is to say, how we decide the composition of the infected and the not-infected groups.</p>
-<p>The infected group for example could be further sub-categorized into:</p>
+<p>For example, the non-infected group could be further sub-categorized into:</p>
 <ul>
-<li>asymptomatic</li>
-<li>symptomatic</li>
+<li>Susceptible</li>
+<li>Immune</li>
 </ul>
-<p>Or</p>
+<p>And the infected group into:</p>
 <ul>
-<li>no treatment necessary</li>
-<li>require treatment:<ul>
-<li>local Doctor visit</li>
-<li>hospitalization</li>
-<li>admitted to intensive care unit</li>
+<li>Asymptomatic</li>
+<li>Symptomatic</li>
+</ul>
+<p>Or, another option, into:</p>
+<ul>
+<li>No treatment necessary</li>
+<li>Require treatment:<ul>
+<li>Local Doctor visit</li>
+<li>Hospitalization</li>
+<li>Admitted to intensive care unit</li>
 </ul>
 </li>
 </ul>
 <p>As you can see there are many ways to do this, but the more categories you have, the more difficult it might become to model. Usually we determine these subcategories in order to match available data.</p>
-<p>What about the non-infected group? Again there are many ways to subdivide this group but the most obvious first subdivision would be to separate those susceptible to the disease from those that are immune.</p>
 
 </div>
 </div>
@@ -307,6 +311,7 @@ window.onload = wrap_img;
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>While the compartments describe the state any individual can be in at a certain point in time, the dynamics describe the ways in which the compartments interact with each other.</p>
+<p>I want to underline the separation between disease dynamics on the individual level, and that on the population level below.</p>
 
 </div>
 </div>
@@ -323,7 +328,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This describes on the individual level, how one person can go from one state to another (one compartment to another) i.e. a healthy person becomes ill, then he dies or recovers, etc..</p>
+<p>This describes, on the individual level, the progression of the disease i.e. how one person can go from one state to another (one compartment to another)</p>
+<p>For example: how does a healthy person become ill and what is the clinical course of the disease for this person?</p>
 
 </div>
 </div>
@@ -340,8 +346,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This describes on a population level how the total number of individuals in each compartment vary over time.</p>
-<p>We will see more on this in other blog posts.</p>
+<p>On the other hand, the population level dynmics describe, on a population level, how the total number of individuals in each compartment vary over time.</p>
+<p>We will see more on this in the next blog posts.</p>
 
 </div>
 </div>
@@ -372,7 +378,7 @@ window.onload = wrap_img;
 </ul>
 <p>An individual will either fight off the infection (with the help or not of treatment) or die. These are all included in the R state.</p>
 <p>In the basic SIR model, anyone R has aquired full and infinite immunity and cannot catcht the disease again (of course many variations can be included to reflect more closely a disease).</p>
-<p>In this write-up we will focus on the SEIR models, which are similar to the SIR compartments above with the additional E state between S and I.</p>
+<p>In this write-up and in the following blog posts we will focus on the SEIR models, which are similar to the SIR compartments above with the additional E state between S and I.</p>
 <ul>
 <li><strong>E --&gt; Exposed state:</strong></li>
 </ul>
@@ -432,7 +438,7 @@ window.onload = wrap_img;
 <p>The chances of an individual going from S → E depends on three things:</p>
 <ol>
 <li>the number of contacts the person has per unit time (given by $r$)</li>
-<li>the chance a given contact is with an I - infectious individual (the higher thenumber of I, the higher the chance)</li>
+<li>the chance a given contact is with an I - infectious individual (the higher the number of I in the population, the higher the chance)</li>
 <li>the chance of an S contracting the disease from a contact with an I (given by $\rho$)</li>
 </ol>
 
@@ -453,7 +459,7 @@ window.onload = wrap_img;
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>All people exposed will eventually develop disease.</p>
 <p>However, individually, a person might go from E to I on the first day, or after 10 days, this is unique to the individual.</p>
-<p>Everyday additional day following exposure the probability of this individual to go from E → I increases (we will have a look at the probaility distribution and its importance later).</p>
+<p>Every additional day following exposure the probability of this individual to go from E → I increases (we will have a look at the probability distribution and its importance later).</p>
 
 </div>
 </div>
@@ -470,7 +476,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Similarly, all infectious people will recover (or die). Again, individually, a person might go from I to R in 5 days or in 15 days, this time is the recovery time and is proper to the individual.</p>
+<p>Similarly, all infectious people will recover (or die).</p>
+<p>Again, individually, a person might go from I to R in 5 days or in 15 days, this time is the recovery time and is proper to the individual.</p>
 
 </div>
 </div>
@@ -487,7 +494,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Most basic models tend to disregard the notion of individual dynamics above in favor of poopulation level dynamics. That is to say the models tend to model disease on a population level without looking at the specifics pogression of disease within the individuals and using averages instead (although the S → E uses the same logic as above).</p>
+<p>Most basic models tend to disregard the notion of individual dynamics above in favor of poopulation level dynamics.</p>
+<p>That is to say the models tend to model disease on a population level without looking at the specific pogression of disease within the individuals and using averages instead (although the S → E uses the same logic as above).</p>
 <p>Below is an explanation for such an SEIR model with its mathematical formulation.</p>
 <p>Note no births or deaths are included.</p>
 
@@ -506,18 +514,20 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As stated above, going from S to E depends on:</p>
+<p>As stated above, going from S to E on a particular day depends on:</p>
 <ul>
-<li>the number of infectious people in the population: $\frac{I(t)}{N}$</li>
-<li>the average number of contacts an individual has per day: $r$</li>
+<li>the proportion of infectious people in the population on that day: $i(t) = \frac{I(t)}{N}$</li>
+<li>the number of contacts an individual has per day: $r$</li>
 <li>the chance for an S to contract the disease after contact with an I: $\rho$</li>
+<li>the proportion of susceptible people in the population on that day: $s(t) = \frac{S(t)}{N}$</li>
 </ul>
-<p>We can combine the last two into $\beta = r * \rho$</p>
-<p>So the negative rate of change of the number of S in a population over a unit time is equal to $\beta * \frac{I(t)}{N}$</p>
+<p>We can combine the last two into $\beta = r  \rho$</p>
+<p>So the change in the number of S in a population on a given day is equal to $- \beta i(t) s(t)$</p>
+<p>(note the negative sign to indicate the number of S is diminishing as they become exposed)</p>
 <p>Hence we can formulate this mathematically as follows:</p>
-<p>$\Delta S = -\beta \frac{I}{N} * \Delta T$</p>
+<p>$\Delta S = -\beta I S\Delta T$</p>
 <p>or</p>
-<p>$\frac{dS}{dt}=-\beta\frac{I(t)}{N}$</p>
+<p>$\frac{ds(t)}{dt}=-\beta i(t) s(t)$</p>
 
 </div>
 </div>
@@ -540,15 +550,15 @@ window.onload = wrap_img;
 <li>new additions following S → E</li>
 <li>reduction following E → I</li>
 </ul>
-<p>We know the number from S → E is:
-$\beta\frac{I(t)}{N}$</p>
-<p>How can we model the number of E → I?</p>
-<p>While individually this is complicated to model and pertains to the specific probability distribution, on a population level we can use the average time it takes - this is what most models do (part 3 of this blog post will show why this is wrong for COVID-19).</p>
-<p>Let's say average time from E → I is $\frac{1}{\sigma}$, then we know every unit time, we have $\sigma * E$ transitions from E → I.</p>
+<p>We already know the number from S → E is:
+$\beta i(t) s(t)$</p>
+<p>So how can we model the number of E → I?</p>
+<p>While individually this is a bit more complicated to model and pertains to the specific probability distribution, on a population level we can use the average time it takes - this is what most models do (part 3 of this blog post will show why this is wrong for COVID-19).</p>
+<p>Let's say average time from E → I is $\frac{1}{\sigma}$, then we know every unit time, we have $\sigma E$ transitions from E → I.</p>
 <p>Mathematically, we write this as :</p>
-<p>$\Delta E = (\beta \frac{I}{N}-\sigma E) \Delta T$</p>
+<p>$\Delta E = (\beta I S-\sigma E) \Delta T$</p>
 <p>or</p>
-<p>$\frac{dE}{dt}=\beta\frac{I(t)}{N} - \sigma E(t)$</p>
+<p>$\frac{de(t)}{dt}=\beta i(t) s(t) - \sigma e(t)$</p>
 
 </div>
 </div>
@@ -572,12 +582,13 @@ $\beta\frac{I(t)}{N}$</p>
 <li>reduction following I → R</li>
 </ul>
 <p>We know the number from E → I is:
-$\sigma E(t)$</p>
+$\sigma e(t)$</p>
 <p>How can we model the number of I → R?</p>
-<p>Again, while individually this is complicated, on a population level, how about averaging it out, this is what most models do. Let's say average time from I → R is $\frac{1}{\gamma}$, then we have:</p>
+<p>Again, while individually this is complicated, on a population level, how about averaging it out, this is what most models do.</p>
+<p>Let's say average time from I → R is $\frac{1}{\gamma}$, then we have:</p>
 <p>$\Delta I = (\sigma E - \gamma I) \Delta T$</p>
 <p>or</p>
-<p>$\frac{dI}{dt}=\sigma E(t) - \gamma I(t)$</p>
+<p>$\frac{di(t)}{dt}=\sigma e(t) - \gamma i(t)$</p>
 
 </div>
 </div>
@@ -594,10 +605,10 @@ $\sigma E(t)$</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Finally, we can model the number of individuals in R state with the following equation:</p>
+<p>Finally, it is simple to model the number of individuals in R state with the following equation:</p>
 <p>$\Delta R = \gamma I \Delta T$</p>
 <p>or</p>
-<p>$\frac{dR}{dt}=\gamma I(t)$</p>
+<p>$\frac{dr(t)}{dt}=\gamma i(t)$</p>
 
 </div>
 </div>
@@ -614,10 +625,8 @@ $\sigma E(t)$</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A brief introduction to compartmentalization models and the dynamics associated with them.</p>
-<p>Of course these sort of derivations can be done for many different types of comprtaments and their relevant dynamic models, but the SEIR is simple enough to understand and model quickly.</p>
-<p>Please note for COVID-19, the assumptions of averaging out the times for E → I and I → R are not correct !</p>
-<p>While many models have been published like this for COVID, they cannot be correct and this will be shown in part 3 of these series.</p>
+<p>This was a brief introduction to compartmentalization models and the dynamics associated with them.</p>
+<p>Of course these sort of derivations can be done for many different types of comprtaments and their relevant dynamics, but the SEIR is simple enough to understand and model quickly.</p>
 
 </div>
 </div>
