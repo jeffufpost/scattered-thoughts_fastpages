@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Epidemic modeling - Part 1 | Scattered Thoughts</title>
+<meta name="generator" content="Jekyll v4.0.1" />
+<meta property="og:title" content="Epidemic modeling - Part 1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Compartmentalization models and disease dynamics" />
+<meta property="og:description" content="Compartmentalization models and disease dynamics" />
+<link rel="canonical" href="https://jeffufpost.github.io/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html" />
+<meta property="og:url" content="https://jeffufpost.github.io/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html" />
+<meta property="og:site_name" content="Scattered Thoughts" />
+<meta property="og:image" content="https://jeffufpost.github.io/scattered-thoughts/images/compartmentalization.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-05-27T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Compartmentalization models and disease dynamics","headline":"Epidemic modeling - Part 1","@type":"BlogPosting","dateModified":"2020-05-27T00:00:00-05:00","datePublished":"2020-05-27T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jeffufpost.github.io/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html"},"image":"https://jeffufpost.github.io/scattered-thoughts/images/compartmentalization.jpg","url":"https://jeffufpost.github.io/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/scattered-thoughts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jeffufpost.github.io/scattered-thoughts/feed.xml" title="Scattered Thoughts" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-166290391-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/scattered-thoughts/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Epidemic modeling - Part 1 | Scattered Thoughts</title>
+<meta name="generator" content="Jekyll v4.0.1" />
+<meta property="og:title" content="Epidemic modeling - Part 1" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Compartmentalization models and disease dynamics" />
+<meta property="og:description" content="Compartmentalization models and disease dynamics" />
+<link rel="canonical" href="https://jeffufpost.github.io/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html" />
+<meta property="og:url" content="https://jeffufpost.github.io/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html" />
+<meta property="og:site_name" content="Scattered Thoughts" />
+<meta property="og:image" content="https://jeffufpost.github.io/scattered-thoughts/images/compartmentalization.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-05-27T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Compartmentalization models and disease dynamics","headline":"Epidemic modeling - Part 1","@type":"BlogPosting","dateModified":"2020-05-27T00:00:00-05:00","datePublished":"2020-05-27T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jeffufpost.github.io/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html"},"image":"https://jeffufpost.github.io/scattered-thoughts/images/compartmentalization.jpg","url":"https://jeffufpost.github.io/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://jeffufpost.github.io/scattered-thoughts/feed.xml" title="Scattered Thoughts" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-166290391-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/scattered-thoughts/">Scattered Thoughts</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/scattered-thoughts/about/">About Me</a><a class="page-link" href="/scattered-thoughts/search/">Search</a><a class="page-link" href="/scattered-thoughts/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Epidemic modeling - Part 1</h1><p class="page-description">Compartmentalization models and disease dynamics</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-27T00:00:00-05:00" itemprop="datePublished">
+        May 27, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      12 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#modeling">modeling</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#compartmentalization">compartmentalization</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#SEIR">SEIR</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#epidemiology">epidemiology</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/scattered-thoughts/categories/#disease dynamics">disease dynamics</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/jeffufpost/scattered-thoughts/tree/master/_notebooks/2020_03_15_compartmentalization.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/scattered-thoughts/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/jeffufpost/scattered-thoughts/master?filepath=_notebooks%2F2020_03_15_compartmentalization.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/scattered-thoughts/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/jeffufpost/scattered-thoughts/blob/master/_notebooks/2020_03_15_compartmentalization.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/scattered-thoughts/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Motivation-for-write-up">Motivation for write-up </a></li>
+<li class="toc-entry toc-h2"><a href="#How-to-model-infectious-diseases-on-population-level-?">How to model infectious diseases on population level ? </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Compartments">Compartments </a></li>
+<li class="toc-entry toc-h3"><a href="#Dynamics">Dynamics </a></li>
+<li class="toc-entry toc-h3"><a href="#Two-simple-examples---the-SIR-and-SEIR-models">Two simple examples - the SIR and SEIR models </a></li>
+<li class="toc-entry toc-h3"><a href="#Some-important-vocabulary">Some important vocabulary </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#A-closer-look-at-the-SEIR-model">A closer look at the SEIR model </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Individual-level-disease-dynamic">Individual-level disease dynamic </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#s--e">S → E</a></li>
+<li class="toc-entry toc-h4"><a href="#e--i">E → I</a></li>
+<li class="toc-entry toc-h4"><a href="#i--r">I → R</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Population-level-dynamics">Population level dynamics </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#s--e-1">S → E</a></li>
+<li class="toc-entry toc-h4"><a href="#e--i-1">E → I</a></li>
+<li class="toc-entry toc-h4"><a href="#i--r-1">I → R</a></li>
+<li class="toc-entry toc-h4"><a href="#r--r">R → R</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Effective-and-Basic-Reproduction-Numbers:-$R$-and-$R_0$-respectively">Effective and Basic Reproduction Numbers: $R$ and $R_0$ respectively </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Understanding-how-the-infection-spreads">Understanding how the infection spreads </a></li>
+<li class="toc-entry toc-h3"><a href="#Derivation-of-$R$-for-each-individual">Derivation of $R$ for each individual </a></li>
+<li class="toc-entry toc-h3"><a href="#Finding-$R_0$-of-each-individual-by-making-assumptions">Finding $R_0$ of each individual by making assumptions </a></li>
+<li class="toc-entry toc-h3"><a href="#$R_0$-for-a-population">$R_0$ for a population </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Conclusion">Conclusion </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020_03_15_compartmentalization.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/scattered-thoughts/images/copied_from_nb/my_icons/compartmentalization.jpg" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Motivation-for-write-up">
+<a class="anchor" href="#Motivation-for-write-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>Motivation for write-up<a class="anchor-link" href="#Motivation-for-write-up"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is the 1st part of a multi-part series blog post on modeling in epidemiology.</p>
+<p>The COVID-19 pandemic has brought a lot of attention to the study of epidemiology and more specifically to the various mathematical models that are used to inform public health policies. Everyone has been trying to understand the growth or slowing of new cases and trying to predict the necessary sanitary resources. This blog post attempts to explain the foundations for some of the most used models and enlighten the reader on a few important points.</p>
+<p>In this first post I want to introduce the concept of compartmentalization and how it forms the basis for studying disease dynamics on the population level.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="How-to-model-infectious-diseases-on-population-level-?">
+<a class="anchor" href="#How-to-model-infectious-diseases-on-population-level-?" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to model infectious diseases on population level ?<a class="anchor-link" href="#How-to-model-infectious-diseases-on-population-level-?"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Compartments">
+<a class="anchor" href="#Compartments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compartments<a class="anchor-link" href="#Compartments"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When modelling infectious diseases, and pandemics in particular, a key ask is to predict the number of infected people at any given time in order to estimate the sanitary resources that will be necessary.</p>
+<p>From this simple qestion results the idea of compartmentalization of the population i.e. the division of the population into the two most basic categories:</p>
+<ul>
+<li>those that are infected</li>
+<li>those that are not</li>
+</ul>
+<p>This is ultimately the foundation for all compartmental models in epidemiology.</p>
+<p>The nuances between the models then come from how the above two groups are further compartmentalized. That is to say, how we decide the composition of the infected and the not-infected groups.</p>
+<p>For example, the non-infected group could be further sub-categorized into:</p>
+<ul>
+<li>Susceptible</li>
+<li>Immune</li>
+</ul>
+<p>And the infected group into:</p>
+<ul>
+<li>Asymptomatic</li>
+<li>Symptomatic</li>
+</ul>
+<p>Or, another option, into:</p>
+<ul>
+<li>No treatment necessary</li>
+<li>Require treatment:<ul>
+<li>Local Doctor visit</li>
+<li>Hospitalization</li>
+<li>Admitted to intensive care unit</li>
+</ul>
+</li>
+</ul>
+<p>As you can see there are many ways to do this, but the more categories you have, the more difficult it might become to model. Usually we determine these subcategories in order to match available data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Dynamics">
+<a class="anchor" href="#Dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dynamics<a class="anchor-link" href="#Dynamics"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>While the compartments describe the state any individual can be in at a certain point in time, the dynamics describe the ways in which the compartments interact with each other.</p>
+<p>I want to underline the separation between disease dynamics on the individual level, and that on the population level below.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><strong>Individual level disease dynamics:</strong></li>
+</ul>
+<p>This describes, on the individual level, the progression of the disease i.e. how one person can go from one state to another (one compartment to another)</p>
+<p>For example: how does a healthy person become ill and what is the clinical course of the disease for this person?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><strong>Population-level dynamics:</strong></li>
+</ul>
+<p>On the other hand, the population level dynamics describe, on a population level, how the total number of individuals in each compartment vary over time.</p>
+<p>We will see more on this in the next blog posts.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Two-simple-examples---the-SIR-and-SEIR-models">
+<a class="anchor" href="#Two-simple-examples---the-SIR-and-SEIR-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Two simple examples - the SIR and SEIR models<a class="anchor-link" href="#Two-simple-examples---the-SIR-and-SEIR-models"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's have a look at a basic compartmental model, first the SIR model.</p>
+<ul>
+<li><strong>S --&gt; Susceptible state:</strong></li>
+</ul>
+<p>An S individual is simply someone susceptible to the disease, that is anyone in the population who is healthy and not immune to the disease.</p>
+<ul>
+<li><strong>I --&gt; Infectious state:</strong></li>
+</ul>
+<p>Once an individual is exposed to the disease he will develop this disease and become infectious.</p>
+<ul>
+<li><strong>R --&gt; Recovered state:</strong></li>
+</ul>
+<p>An individual will either fight off the infection (with the help or not of treatment) or die. These are all included in the R state.</p>
+<p>In the basic SIR model, anyone R has aquired full and infinite immunity and cannot catch the disease again (of course many variations can be included to reflect more closely a disease).</p>
+<p>In this write-up and in the following blog posts we will focus on the SEIR models, which are similar to the SIR compartments above with the additional E state between S and I.</p>
+<ul>
+<li><strong>E --&gt; Exposed state:</strong></li>
+</ul>
+<p>The exposed state is the state when an individual has been exposed to the disease, but has not become infectious yet.</p>
+<p>It should be noted the <strong>incubation period</strong>, the time between exposure to disease and development of the disease is not necessarily the same as the time between the states E and I. Indeed, an individual may become infectious before the appearance of the symptoms (or at the same time, or after, but not necessarily the same time).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Some-important-vocabulary">
+<a class="anchor" href="#Some-important-vocabulary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Some important vocabulary<a class="anchor-link" href="#Some-important-vocabulary"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>$\underline{Infectious\ period:}$</li>
+</ul>
+<p>Also called the period of communicability, the infectious period is the time during which an individual can transmit the disease to another: $T_{Infectious}$</p>
+<ul>
+<li>$\underline{Clinical\ infection\ period:}$</li>
+</ul>
+<p>This period corresponds to the period where the infected indvidual shows symptoms: $T_{Clinical}$</p>
+<ul>
+<li>$\underline{Latent\ period:}$</li>
+</ul>
+<p>The latent period is the time between exposure of an individual and the start of the period of communicability of that individual: $T_{Latent}$</p>
+<ul>
+<li>$\underline{Incubation\ period:}$</li>
+</ul>
+<p>The incubation period on the other hand, is the time from exposure of an individual to development of the infection (appearance of disease): $T_{Incubation}$</p>
+<p><em>It should be noted the latent period and incubation period are not necessarily the same.</em></p>
+<ul>
+<li>$\underline{T_{Latent} &lt; T_{Incubation}}$:</li>
+</ul>
+<p>In this case, an individual who has been exposed becomes infectious before the development of disease.</p>
+<p>We call this a <strong>subclinical infection</strong> and during that time the individual is called an <strong>asymptomatic carrier</strong>.</p>
+<ul>
+<li>$\underline{T_{Latent} &lt; T_{Incubation}:}$</li>
+</ul>
+<p>In other cases, the latent period can be longer than the incubation period, eg: smallpox.</p>
+<ul>
+<li>$\underline{T_{Latent} + T_{Infectious} &gt; T_{Incubation} + T_{Clinical}:}$</li>
+</ul>
+<p>Another case of <strong>subclinical infection</strong> resulting in <strong>asymptomatic carriers</strong> occurs when the end of clinical infection (of disease) happens earlier than the end of the period of communicability (see Wikipedia figure below)</p>
+<p>Overall, these asymptomatic carriers can be a significant difficutly to overcome epidemics.</p>
+<p><img src="/scattered-thoughts/images/copied_from_nb/my_icons/Concept_of_incubation_period.svg" alt="" title="Wikipedia"></p>
+<ul>
+<li><strong>Basic reproduction number:</strong></li>
+</ul>
+<p>The basic reproduction number $R_0$ is the measure of secondary infections.</p>
+<p>In other words, it is the number of people that each infectious individual will infect over the time of their infectious period.</p>
+<p>Example:</p>
+<p>If an infectious individual infects 3 other individuals over the course of his infection, his $R_0$ is 3.</p>
+<p>This number is a very important element in the spreading dynamics (see derivation below).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-closer-look-at-the-SEIR-model">
+<a class="anchor" href="#A-closer-look-at-the-SEIR-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>A closer look at the SEIR model<a class="anchor-link" href="#A-closer-look-at-the-SEIR-model"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Individual-level-disease-dynamic">
+<a class="anchor" href="#Individual-level-disease-dynamic" aria-hidden="true"><span class="octicon octicon-link"></span></a>Individual-level disease dynamic<a class="anchor-link" href="#Individual-level-disease-dynamic"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As explained above, the individual-level disease dynamic describes the progression of disease within an individual i.e. the progression of an individual from one state to another.</p>
+<ul>
+<li>
+<p>In the models used here (SEIR model), an individual starts at S (although an initial exposed or infectious person is injected into the population at time t=0).</p>
+</li>
+<li>
+<p>If exposed to the disease he will move into the state E.</p>
+</li>
+<li>
+<p>After which he will move to the I state with probability 1, but in a time unique to himself.</p>
+</li>
+<li>
+<p>Again after which he will move into the state R with probability 1, and again in a time unique to him.</p>
+</li>
+<li>
+<p>From state R he will stay in state R (either dead or has aquired full and inifite immunity).</p>
+</li>
+</ul>
+<p>Let's have a closer look:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4>
+<a class="anchor" href="#s--e" aria-hidden="true"><span class="octicon octicon-link"></span></a>S → E</h4>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The chances of an individual going from S → E depends on three things:</p>
+<ol>
+<li>the number of contacts the person has per unit time (given by $r$)</li>
+<li>the chance a given contact is with an I - infectious individual (the higher the number of I in the population, the higher the chance)</li>
+<li>the chance of an S contracting the disease from a contact with an I (given by $\rho$)</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4>
+<a class="anchor" href="#e--i" aria-hidden="true"><span class="octicon octicon-link"></span></a>E → I</h4>
+<p><em>The latent period</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All people exposed will eventually develop disease.</p>
+<p>However, individually, a person might go from E to I on the first day, or after 10 days, this is unique to the individual.</p>
+<p>Every additional day following exposure the probability of this individual to go from E → I increases (we will have a look at the probability distribution and its importance later).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4>
+<a class="anchor" href="#i--r" aria-hidden="true"><span class="octicon octicon-link"></span></a>I → R</h4>
+<p><em>The period of communicability</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similarly, all infectious people will recover (or die).</p>
+<p>Again, individually, a person might go from I to R in 5 days or in 15 days, this time is the recovery time and is proper to the individual.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Population-level-dynamics">
+<a class="anchor" href="#Population-level-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Population level dynamics<a class="anchor-link" href="#Population-level-dynamics"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Most basic models tend to disregard the notion of individual dynamics above in favor of poopulation level dynamics.</p>
+<p>That is to say the models tend to model disease on a population level without looking at the specific pogression of disease within the individuals and using averages instead (although the S → E uses the same logic as above).</p>
+<p>Below is an explanation for such an SEIR model with its mathematical formulation.</p>
+<p>Note no births or deaths are included.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4>
+<a class="anchor" href="#s--e-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>S → E</h4>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As stated above, going from S to E on a particular day depends on these three characteristics:</p>
+<ul>
+<li>the proportion of infectious people in the population on that day: $i(t) = \frac{I(t)}{N}$</li>
+<li>the number of contacts an individual has per day: $r$</li>
+<li>the chance for an S to contract the disease after contact with an I: $\rho$</li>
+</ul>
+<p>We can combine the last two into $\beta = r  \rho$</p>
+<p>On a population-level however, the number of S that will become E also depends on the proportion of S in the population (of course if there are no S, no one will become E of course).</p>
+<p>So we add the following requirement:</p>
+<ul>
+<li>the proportion of susceptible people in the population on that day: $s(t) = \frac{S(t)}{N}$</li>
+</ul>
+<p>So the change in the number of S in a population on a given day is equal to:</p>
+<p>$- \beta i(t) s(t)$</p>
+<p>(note the negative sign to indicate the number of S is diminishing as they become exposed)</p>
+<p>Hence we can formulate this mathematically as follows:</p>
+<ul>
+<li>Discrete-time:
+
+$$\Delta S = -\beta I S\Delta T$$
+</li>
+<li>Continuous-time:
+
+$$\frac{ds(t)}{dt}=-\beta i(t) s(t)$$
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4>
+<a class="anchor" href="#e--i-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>E → I</h4>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have seen above how each individual goes from E to I.</p>
+<p>On a population level, the number of E changes in two ways:</p>
+<ul>
+<li>new additions following S → E</li>
+<li>reduction following E → I</li>
+</ul>
+<p>We already know the number from S → E is:</p>
+<p>
+$$\beta i(t) s(t)$$
+</p>
+<p>So how can we model the number of E → I?</p>
+<p>While individually this is a bit more complicated to model and pertains to the specific probability distribution of the latent period, on a population level we can use the average time it takes - this is what most models do (part 3 of this blog post will show why this is wrong for COVID-19).</p>
+<p>Let's say average latent period is</p>
+<p>
+$$\frac{1}{\sigma}$$
+</p>
+<p>then we know that every unit time that goes by, we have</p>
+<p>
+$$\sigma E$$
+</p>
+<p>individuals that transition from E → I.</p>
+<p>Mathematically, we write this as :</p>
+<ul>
+<li>Discrete-time:
+
+$$\Delta E = (\beta I S-\sigma E) \Delta T$$
+</li>
+<li>Continuous-time:
+
+$$\frac{de(t)}{dt}=\beta i(t) s(t) - \sigma e(t)$$
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4>
+<a class="anchor" href="#i--r-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>I → R</h4>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Similarly as above, we have seen above how each individual goes from I to R but this does not tell us about the population level dynamics.</p>
+<p>On a population level, the number of I changes in two ways:</p>
+<ul>
+<li>new additions following E → I</li>
+<li>reduction following I → R</li>
+</ul>
+<p>We know the number from E → I is:</p>
+<p>
+$$\sigma e(t)$$
+</p>
+<p>How can we model the number of I → R?</p>
+<p>Again, while individually this is complicated, on a population level, how about averaging out the period of infectiousness, this is what most models do.</p>
+<p>Let's say average time of infectiousness is</p>
+<p>
+$$\frac{1}{\gamma}$$
+</p>
+<p>Then we have:</p>
+<ul>
+<li>Discrete-time:
+
+$$\Delta I = (\sigma E - \gamma I) \Delta T$$
+</li>
+<li>Continuous-time:
+
+$$\frac{di(t)}{dt}=\sigma e(t) - \gamma i(t)$$
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4>
+<a class="anchor" href="#r--r" aria-hidden="true"><span class="octicon octicon-link"></span></a>R → R</h4>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, it is simple to model the number of individuals in R state with the following equation:</p>
+<ul>
+<li>Discrete-time:
+
+$$\Delta R = \gamma I \Delta T$$
+</li>
+<li>Continuous-time:
+
+$$\frac{dr(t)}{dt}=\gamma i(t)$$
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Effective-and-Basic-Reproduction-Numbers:-$R$-and-$R_0$-respectively">
+<a class="anchor" href="#Effective-and-Basic-Reproduction-Numbers:-%24R%24-and-%24R_0%24-respectively" aria-hidden="true"><span class="octicon octicon-link"></span></a>Effective and Basic Reproduction Numbers: $R$ and $R_0$ respectively<a class="anchor-link" href="#Effective-and-Basic-Reproduction-Numbers:-%24R%24-and-%24R_0%24-respectively"> </a>
+</h2>
+<p><em>As stated above, $R_0$ is the measure of secondary infections. Let's have a look how we can characterize it.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Understanding-how-the-infection-spreads">
+<a class="anchor" href="#Understanding-how-the-infection-spreads" aria-hidden="true"><span class="octicon octicon-link"></span></a>Understanding how the infection spreads<a class="anchor-link" href="#Understanding-how-the-infection-spreads"> </a>
+</h3>
+<p>Any individual in state I (infectious) will contaminate others according to the following:</p>
+<ul>
+<li>Number of contacts the individual has per day given by: $r_i$</li>
+<li>Probability to infect an S after contact given by: $\rho_i$</li>
+<li>Probability of a contact being with an S given by:
+$\frac{S(t)}{N} = s(t)$ </li>
+<li>The period of infectiousness of the individual given by [$j_i, \frac{1}{\tau_i}$]
+(where $j_i$ is the first day of infectiousness for that individual and $\frac{1}{\tau_i}$ is that individuals' time of infectiousness)</li>
+</ul>
+<p>Remember $r_i\rho_i=\beta_i$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Derivation-of-$R$-for-each-individual">
+<a class="anchor" href="#Derivation-of-%24R%24-for-each-individual" aria-hidden="true"><span class="octicon octicon-link"></span></a>Derivation of $R$ for each individual<a class="anchor-link" href="#Derivation-of-%24R%24-for-each-individual"> </a>
+</h3>
+<p>Let's call the measure of $R$ for any individual $R_i$.</p>
+<p>From the parameters above we can write $R_i$ for each infectious individual as the sum of secondary infections per day of infectiousness as below:</p>
+<ul>
+<li>Discrete-time:
+
+$$R_i = \sum_{Day=j_i}^{j_i+\frac{1}{\tau_i}} \beta_i \frac{S(Day)}{N}$$
+
+*Continuous-time:
+
+$$R_i = \int_{j_i}^{j_i+\frac{1}{\tau_i}} \beta_i s(t) dt$$
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Finding-$R_0$-of-each-individual-by-making-assumptions">
+<a class="anchor" href="#Finding-%24R_0%24-of-each-individual-by-making-assumptions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Finding $R_0$ of each individual by making assumptions<a class="anchor-link" href="#Finding-%24R_0%24-of-each-individual-by-making-assumptions"> </a>
+</h3>
+<p>$R_{0,i}$ is the measure of $R_i$ in a susceptible population, i.e. when:
+
+$$S = N$$
+</p>
+<p>In other words:
+
+$$R_{0,i} = R_i ~ \frac{N}{S}$$
+</p>
+<p>If we make the following assumptions:</p>
+<ul>
+<li>s(t) is constant over the course of infectiousness of an individual:
+
+$$s(t) = s(t+\frac{1}{\tau_i})$$
+</li>
+<li>$\beta_i$ is a constant and does not vary over the course of time (no control measures)</li>
+</ul>
+<p>Then the equation for $R_{0,i}$ reduces to the following:
+
+$$R_{0,i} = [\beta_i]_{j_i}^{j_i+\frac{1}{\tau_i}} = \frac{\beta_i}{\tau_i}$$
+</p>
+<p>We can see the basic reproduction number of an individual is fully characterized by the $\beta_i$ and the $\tau_i$ of that individual.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="$R_0$-for-a-population">
+<a class="anchor" href="#%24R_0%24-for-a-population" aria-hidden="true"><span class="octicon octicon-link"></span></a>$R_0$ for a population<a class="anchor-link" href="#%24R_0%24-for-a-population"> </a>
+</h3>
+<p>To a generalize toa  population-level, we can simply find the expected value for the equation above:
+
+$$R_0 = E[R_{0,i}] = \frac{E[\beta_i]}{E[\tau_i]}$$
+</p>
+<p>Assuming:</p>
+<ul>
+<li>$E[\beta_i] = \beta$</li>
+<li>$E[\tau_i] = \gamma$</li>
+</ul>
+<p>We can write:
+
+$$R_0 = \frac{\beta}{\gamma}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusion">
+<a class="anchor" href="#Conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion<a class="anchor-link" href="#Conclusion"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This was a brief introduction to compartmentalization models and the dynamics associated with them.</p>
+<p>Of course these sort of derivations can be done for many different types of comprtaments and their relevant dynamics, but the SEIR is simple enough to understand and model quickly.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="jeffufpost/scattered-thoughts"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/scattered-thoughts/modeling/compartmentalization/seir/epidemiology/disease%20dynamics/2020/05/27/_03_15_compartmentalization.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/scattered-thoughts/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/scattered-thoughts/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/scattered-thoughts/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Eclectic collection of thoughts, notebooks, simulations, calculations, and other things on a wide range of topics.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/jeffufpost" title="jeffufpost"><svg class="svg-icon grey"><use xlink:href="/scattered-thoughts/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/iamjeffreypost" title="iamjeffreypost"><svg class="svg-icon grey"><use xlink:href="/scattered-thoughts/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
