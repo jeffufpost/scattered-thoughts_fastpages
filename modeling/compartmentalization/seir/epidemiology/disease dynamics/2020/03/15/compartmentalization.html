@@ -121,7 +121,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      8 min read
+      12 min read
     
 </span></p>
 
@@ -176,28 +176,36 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#How-to-model-infectious-diseases-on-population-level-?">How to model infectious diseases on population level ? </a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#Compartments">Compartments </a></li>
-<li class="toc-entry toc-h3"><a href="#Dynamics">Dynamics </a>
+<li class="toc-entry toc-h3"><a href="#Dynamics">Dynamics </a></li>
+<li class="toc-entry toc-h3"><a href="#Two-simple-examples---the-SIR-and-SEIR-models">Two simple examples - the SIR and SEIR models </a></li>
+<li class="toc-entry toc-h3"><a href="#Some-important-vocabulary">Some important vocabulary </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#A-closer-look-at-the-SEIR-model">A closer look at the SEIR model </a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#Individual-level-disease-dynamics">Individual level disease dynamics </a></li>
-<li class="toc-entry toc-h4"><a href="#Population-level-dynamics">Population-level dynamics </a></li>
+<li class="toc-entry toc-h3"><a href="#Individual-level-disease-dynamic">Individual-level disease dynamic </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#s--e">S → E</a></li>
+<li class="toc-entry toc-h4"><a href="#e--i">E → I</a></li>
+<li class="toc-entry toc-h4"><a href="#i--r">I → R</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Population-level-dynamics">Population level dynamics </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#s--e-1">S → E</a></li>
+<li class="toc-entry toc-h4"><a href="#e--i-1">E → I</a></li>
+<li class="toc-entry toc-h4"><a href="#i--r-1">I → R</a></li>
+<li class="toc-entry toc-h4"><a href="#r--r">R → R</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-entry toc-h2"><a href="#A-simple-example---the-SIR-model">A simple example - the SIR model </a></li>
-<li class="toc-entry toc-h2"><a href="#Individual-level-disease-dynamic">Individual-level disease dynamic </a>
+<li class="toc-entry toc-h2"><a href="#Effective-and-Basic-Reproduction-Numbers:-$R$-and-$R_0$-respectively">Effective and Basic Reproduction Numbers: $R$ and $R_0$ respectively </a>
 <ul>
-<li class="toc-entry toc-h3"><a href="#s--e">S → E</a></li>
-<li class="toc-entry toc-h3"><a href="#e--i">E → I</a></li>
-<li class="toc-entry toc-h3"><a href="#i--r">I → R</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#Population-level-dynamics">Population level dynamics </a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#s--e-1">S → E</a></li>
-<li class="toc-entry toc-h3"><a href="#e--i-1">E → I</a></li>
-<li class="toc-entry toc-h3"><a href="#i--r-1">I → R</a></li>
-<li class="toc-entry toc-h3"><a href="#r--r">R → R</a></li>
+<li class="toc-entry toc-h3"><a href="#Understanding-how-the-infection-spreads">Understanding how the infection spreads </a></li>
+<li class="toc-entry toc-h3"><a href="#Derivation-of-$R$-for-each-individual">Derivation of $R$ for each individual </a></li>
+<li class="toc-entry toc-h3"><a href="#Finding-$R_0$-of-each-individual-by-making-assumptions">Finding $R_0$ of each individual by making assumptions </a></li>
+<li class="toc-entry toc-h3"><a href="#$R_0$-for-a-population">$R_0$ for a population </a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#Conclusion">Conclusion </a></li>
@@ -319,15 +327,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Individual-level-disease-dynamics">
-<a class="anchor" href="#Individual-level-disease-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Individual level disease dynamics<a class="anchor-link" href="#Individual-level-disease-dynamics"> </a>
-</h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><strong>Individual level disease dynamics:</strong></li>
+</ul>
 <p>This describes, on the individual level, the progression of the disease i.e. how one person can go from one state to another (one compartment to another)</p>
 <p>For example: how does a healthy person become ill and what is the clinical course of the disease for this person?</p>
 
@@ -337,16 +339,10 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Population-level-dynamics">
-<a class="anchor" href="#Population-level-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Population-level dynamics<a class="anchor-link" href="#Population-level-dynamics"> </a>
-</h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>On the other hand, the population level dynmics describe, on a population level, how the total number of individuals in each compartment vary over time.</p>
+<ul>
+<li><strong>Population-level dynamics:</strong></li>
+</ul>
+<p>On the other hand, the population level dynamics describe, on a population level, how the total number of individuals in each compartment vary over time.</p>
 <p>We will see more on this in the next blog posts.</p>
 
 </div>
@@ -355,16 +351,16 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="A-simple-example---the-SIR-model">
-<a class="anchor" href="#A-simple-example---the-SIR-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>A simple example - the SIR model<a class="anchor-link" href="#A-simple-example---the-SIR-model"> </a>
-</h2>
+<h3 id="Two-simple-examples---the-SIR-and-SEIR-models">
+<a class="anchor" href="#Two-simple-examples---the-SIR-and-SEIR-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Two simple examples - the SIR and SEIR models<a class="anchor-link" href="#Two-simple-examples---the-SIR-and-SEIR-models"> </a>
+</h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's have a look at a basic compartmental model, the SIR model.</p>
+<p>Let's have a look at a basic compartmental model, first the SIR model.</p>
 <ul>
 <li><strong>S --&gt; Susceptible state:</strong></li>
 </ul>
@@ -377,7 +373,7 @@ window.onload = wrap_img;
 <li><strong>R --&gt; Recovered state:</strong></li>
 </ul>
 <p>An individual will either fight off the infection (with the help or not of treatment) or die. These are all included in the R state.</p>
-<p>In the basic SIR model, anyone R has aquired full and infinite immunity and cannot catcht the disease again (of course many variations can be included to reflect more closely a disease).</p>
+<p>In the basic SIR model, anyone R has aquired full and infinite immunity and cannot catch the disease again (of course many variations can be included to reflect more closely a disease).</p>
 <p>In this write-up and in the following blog posts we will focus on the SEIR models, which are similar to the SIR compartments above with the additional E state between S and I.</p>
 <ul>
 <li><strong>E --&gt; Exposed state:</strong></li>
@@ -391,9 +387,74 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Individual-level-disease-dynamic">
-<a class="anchor" href="#Individual-level-disease-dynamic" aria-hidden="true"><span class="octicon octicon-link"></span></a>Individual-level disease dynamic<a class="anchor-link" href="#Individual-level-disease-dynamic"> </a>
+<h3 id="Some-important-vocabulary">
+<a class="anchor" href="#Some-important-vocabulary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Some important vocabulary<a class="anchor-link" href="#Some-important-vocabulary"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>$\underline{Infectious\ period:}$</li>
+</ul>
+<p>Also called the period of communicability, the infectious period is the time during which an individual can transmit the disease to another: $T_{Infectious}$</p>
+<ul>
+<li>$\underline{Clinical\ infection\ period:}$</li>
+</ul>
+<p>This period corresponds to the period where the infected indvidual shows symptoms: $T_{Clinical}$</p>
+<ul>
+<li>$\underline{Latent\ period:}$</li>
+</ul>
+<p>The latent period is the time between exposure of an individual and the start of the period of communicability of that individual: $T_{Latent}$</p>
+<ul>
+<li>$\underline{Incubation\ period:}$</li>
+</ul>
+<p>The incubation period on the other hand, is the time from exposure of an individual to development of the infection (appearance of disease): $T_{Incubation}$</p>
+<p><em>It should be noted the latent period and incubation period are not necessarily the same.</em></p>
+<ul>
+<li>$\underline{T_{Latent} &lt; T_{Incubation}}$:</li>
+</ul>
+<p>In this case, an individual who has been exposed becomes infectious before the development of disease.</p>
+<p>We call this a <strong>subclinical infection</strong> and during that time the individual is called an <strong>asymptomatic carrier</strong>.</p>
+<ul>
+<li>$\underline{T_{Latent} &lt; T_{Incubation}:}$</li>
+</ul>
+<p>In other cases, the latent period can be longer than the incubation period, eg: smallpox.</p>
+<ul>
+<li>$\underline{T_{Latent} + T_{Infectious} &gt; T_{Incubation} + T_{Clinical}:}$</li>
+</ul>
+<p>Another case of <strong>subclinical infection</strong> resulting in <strong>asymptomatic carriers</strong> occurs when the end of clinical infection (of disease) happens earlier than the end of the period of communicability (see Wikipedia figure below)</p>
+<p>Overall, these asymptomatic carriers can be a significant difficutly to overcome epidemics.</p>
+<p><img src="/scattered-thoughts/images/copied_from_nb/my_icons/Concept_of_incubation_period.svg" alt="" title="Wikipedia"></p>
+<ul>
+<li><strong>Basic reproduction number:</strong></li>
+</ul>
+<p>The basic reproduction number $R_0$ is the measure of secondary infections.</p>
+<p>In other words, it is the number of people that each infectious individual will infect over the time of their infectious period.</p>
+<p>Example:</p>
+<p>If an infectious individual infects 3 other individuals over the course of his infection, his $R_0$ is 3.</p>
+<p>This number is a very important element in the spreading dynamics (see derivation below).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-closer-look-at-the-SEIR-model">
+<a class="anchor" href="#A-closer-look-at-the-SEIR-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>A closer look at the SEIR model<a class="anchor-link" href="#A-closer-look-at-the-SEIR-model"> </a>
 </h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Individual-level-disease-dynamic">
+<a class="anchor" href="#Individual-level-disease-dynamic" aria-hidden="true"><span class="octicon octicon-link"></span></a>Individual-level disease dynamic<a class="anchor-link" href="#Individual-level-disease-dynamic"> </a>
+</h3>
 </div>
 </div>
 </div>
@@ -426,8 +487,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3>
-<a class="anchor" href="#s--e" aria-hidden="true"><span class="octicon octicon-link"></span></a>S → E</h3>
+<h4>
+<a class="anchor" href="#s--e" aria-hidden="true"><span class="octicon octicon-link"></span></a>S → E</h4>
 
 </div>
 </div>
@@ -448,8 +509,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3>
-<a class="anchor" href="#e--i" aria-hidden="true"><span class="octicon octicon-link"></span></a>E → I</h3>
+<h4>
+<a class="anchor" href="#e--i" aria-hidden="true"><span class="octicon octicon-link"></span></a>E → I</h4>
+<p><em>The latent period</em></p>
 
 </div>
 </div>
@@ -467,8 +529,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3>
-<a class="anchor" href="#i--r" aria-hidden="true"><span class="octicon octicon-link"></span></a>I → R</h3>
+<h4>
+<a class="anchor" href="#i--r" aria-hidden="true"><span class="octicon octicon-link"></span></a>I → R</h4>
+<p><em>The period of communicability</em></p>
 
 </div>
 </div>
@@ -485,9 +548,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Population-level-dynamics">
+<h3 id="Population-level-dynamics">
 <a class="anchor" href="#Population-level-dynamics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Population level dynamics<a class="anchor-link" href="#Population-level-dynamics"> </a>
-</h2>
+</h3>
 </div>
 </div>
 </div>
@@ -505,8 +568,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3>
-<a class="anchor" href="#s--e-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>S → E</h3>
+<h4>
+<a class="anchor" href="#s--e-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>S → E</h4>
 
 </div>
 </div>
@@ -514,20 +577,32 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As stated above, going from S to E on a particular day depends on:</p>
+<p>As stated above, going from S to E on a particular day depends on these three characteristics:</p>
 <ul>
 <li>the proportion of infectious people in the population on that day: $i(t) = \frac{I(t)}{N}$</li>
 <li>the number of contacts an individual has per day: $r$</li>
 <li>the chance for an S to contract the disease after contact with an I: $\rho$</li>
-<li>the proportion of susceptible people in the population on that day: $s(t) = \frac{S(t)}{N}$</li>
 </ul>
 <p>We can combine the last two into $\beta = r  \rho$</p>
-<p>So the change in the number of S in a population on a given day is equal to $- \beta i(t) s(t)$</p>
+<p>On a population-level however, the number of S that will become E also depends on the proportion of S in the population (of course if there are no S, no one will become E of course).</p>
+<p>So we add the following requirement:</p>
+<ul>
+<li>the proportion of susceptible people in the population on that day: $s(t) = \frac{S(t)}{N}$</li>
+</ul>
+<p>So the change in the number of S in a population on a given day is equal to:</p>
+<p>$- \beta i(t) s(t)$</p>
 <p>(note the negative sign to indicate the number of S is diminishing as they become exposed)</p>
 <p>Hence we can formulate this mathematically as follows:</p>
-<p>$\Delta S = -\beta I S\Delta T$</p>
-<p>or</p>
-<p>$\frac{ds(t)}{dt}=-\beta i(t) s(t)$</p>
+<ul>
+<li>Discrete-time:
+
+$$\Delta S = -\beta I S\Delta T$$
+</li>
+<li>Continuous-time:
+
+$$\frac{ds(t)}{dt}=-\beta i(t) s(t)$$
+</li>
+</ul>
 
 </div>
 </div>
@@ -535,8 +610,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3>
-<a class="anchor" href="#e--i-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>E → I</h3>
+<h4>
+<a class="anchor" href="#e--i-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>E → I</h4>
 
 </div>
 </div>
@@ -550,15 +625,32 @@ window.onload = wrap_img;
 <li>new additions following S → E</li>
 <li>reduction following E → I</li>
 </ul>
-<p>We already know the number from S → E is:
-$\beta i(t) s(t)$</p>
+<p>We already know the number from S → E is:</p>
+<p>
+$$\beta i(t) s(t)$$
+</p>
 <p>So how can we model the number of E → I?</p>
-<p>While individually this is a bit more complicated to model and pertains to the specific probability distribution, on a population level we can use the average time it takes - this is what most models do (part 3 of this blog post will show why this is wrong for COVID-19).</p>
-<p>Let's say average time from E → I is $\frac{1}{\sigma}$, then we know every unit time, we have $\sigma E$ transitions from E → I.</p>
+<p>While individually this is a bit more complicated to model and pertains to the specific probability distribution of the latent period, on a population level we can use the average time it takes - this is what most models do (part 3 of this blog post will show why this is wrong for COVID-19).</p>
+<p>Let's say average latent period is</p>
+<p>
+$$\frac{1}{\sigma}$$
+</p>
+<p>then we know that every unit time that goes by, we have</p>
+<p>
+$$\sigma E$$
+</p>
+<p>individuals that transition from E → I.</p>
 <p>Mathematically, we write this as :</p>
-<p>$\Delta E = (\beta I S-\sigma E) \Delta T$</p>
-<p>or</p>
-<p>$\frac{de(t)}{dt}=\beta i(t) s(t) - \sigma e(t)$</p>
+<ul>
+<li>Discrete-time:
+
+$$\Delta E = (\beta I S-\sigma E) \Delta T$$
+</li>
+<li>Continuous-time:
+
+$$\frac{de(t)}{dt}=\beta i(t) s(t) - \sigma e(t)$$
+</li>
+</ul>
 
 </div>
 </div>
@@ -566,8 +658,8 @@ $\beta i(t) s(t)$</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3>
-<a class="anchor" href="#i--r-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>I → R</h3>
+<h4>
+<a class="anchor" href="#i--r-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>I → R</h4>
 
 </div>
 </div>
@@ -581,14 +673,27 @@ $\beta i(t) s(t)$</p>
 <li>new additions following E → I</li>
 <li>reduction following I → R</li>
 </ul>
-<p>We know the number from E → I is:
-$\sigma e(t)$</p>
+<p>We know the number from E → I is:</p>
+<p>
+$$\sigma e(t)$$
+</p>
 <p>How can we model the number of I → R?</p>
-<p>Again, while individually this is complicated, on a population level, how about averaging it out, this is what most models do.</p>
-<p>Let's say average time from I → R is $\frac{1}{\gamma}$, then we have:</p>
-<p>$\Delta I = (\sigma E - \gamma I) \Delta T$</p>
-<p>or</p>
-<p>$\frac{di(t)}{dt}=\sigma e(t) - \gamma i(t)$</p>
+<p>Again, while individually this is complicated, on a population level, how about averaging out the period of infectiousness, this is what most models do.</p>
+<p>Let's say average time of infectiousness is</p>
+<p>
+$$\frac{1}{\gamma}$$
+</p>
+<p>Then we have:</p>
+<ul>
+<li>Discrete-time:
+
+$$\Delta I = (\sigma E - \gamma I) \Delta T$$
+</li>
+<li>Continuous-time:
+
+$$\frac{di(t)}{dt}=\sigma e(t) - \gamma i(t)$$
+</li>
+</ul>
 
 </div>
 </div>
@@ -596,8 +701,8 @@ $\sigma e(t)$</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3>
-<a class="anchor" href="#r--r" aria-hidden="true"><span class="octicon octicon-link"></span></a>R → R</h3>
+<h4>
+<a class="anchor" href="#r--r" aria-hidden="true"><span class="octicon octicon-link"></span></a>R → R</h4>
 
 </div>
 </div>
@@ -606,9 +711,123 @@ $\sigma e(t)$</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Finally, it is simple to model the number of individuals in R state with the following equation:</p>
-<p>$\Delta R = \gamma I \Delta T$</p>
-<p>or</p>
-<p>$\frac{dr(t)}{dt}=\gamma i(t)$</p>
+<ul>
+<li>Discrete-time:
+
+$$\Delta R = \gamma I \Delta T$$
+</li>
+<li>Continuous-time:
+
+$$\frac{dr(t)}{dt}=\gamma i(t)$$
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Effective-and-Basic-Reproduction-Numbers:-$R$-and-$R_0$-respectively">
+<a class="anchor" href="#Effective-and-Basic-Reproduction-Numbers:-%24R%24-and-%24R_0%24-respectively" aria-hidden="true"><span class="octicon octicon-link"></span></a>Effective and Basic Reproduction Numbers: $R$ and $R_0$ respectively<a class="anchor-link" href="#Effective-and-Basic-Reproduction-Numbers:-%24R%24-and-%24R_0%24-respectively"> </a>
+</h2>
+<p><em>As stated above, $R_0$ is the measure of secondary infections. Let's have a look how we can characterize it.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Understanding-how-the-infection-spreads">
+<a class="anchor" href="#Understanding-how-the-infection-spreads" aria-hidden="true"><span class="octicon octicon-link"></span></a>Understanding how the infection spreads<a class="anchor-link" href="#Understanding-how-the-infection-spreads"> </a>
+</h3>
+<p>Any individual in state I (infectious) will contaminate others according to the following:</p>
+<ul>
+<li>Number of contacts the individual has per day given by: $r_i$</li>
+<li>Probability to infect an S after contact given by: $\rho_i$</li>
+<li>Probability of a contact being with an S given by:
+$\frac{S(t)}{N} = s(t)$ </li>
+<li>The period of infectiousness of the individual given by [$j_i, \frac{1}{\tau_i}$]
+(where $j_i$ is the first day of infectiousness for that individual and $\frac{1}{\tau_i}$ is that individuals' time of infectiousness)</li>
+</ul>
+<p>Remember $r_i\rho_i=\beta_i$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Derivation-of-$R$-for-each-individual">
+<a class="anchor" href="#Derivation-of-%24R%24-for-each-individual" aria-hidden="true"><span class="octicon octicon-link"></span></a>Derivation of $R$ for each individual<a class="anchor-link" href="#Derivation-of-%24R%24-for-each-individual"> </a>
+</h3>
+<p>Let's call the measure of $R$ for any individual $R_i$.</p>
+<p>From the parameters above we can write $R_i$ for each infectious individual as the sum of secondary infections per day of infectiousness as below:</p>
+<ul>
+<li>Discrete-time:
+
+$$R_i = \sum_{Day=j_i}^{j_i+\frac{1}{\tau_i}} \beta_i \frac{S(Day)}{N}$$
+
+*Continuous-time:
+
+$$R_i = \int_{j_i}^{j_i+\frac{1}{\tau_i}} \beta_i s(t) dt$$
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Finding-$R_0$-of-each-individual-by-making-assumptions">
+<a class="anchor" href="#Finding-%24R_0%24-of-each-individual-by-making-assumptions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Finding $R_0$ of each individual by making assumptions<a class="anchor-link" href="#Finding-%24R_0%24-of-each-individual-by-making-assumptions"> </a>
+</h3>
+<p>$R_{0,i}$ is the measure of $R_i$ in a susceptible population, i.e. when:
+
+$$S = N$$
+</p>
+<p>In other words:
+
+$$R_{0,i} = R_i ~ \frac{N}{S}$$
+</p>
+<p>If we make the following assumptions:</p>
+<ul>
+<li>s(t) is constant over the course of infectiousness of an individual:
+
+$$s(t) = s(t+\frac{1}{\tau_i})$$
+</li>
+<li>$\beta_i$ is a constant and does not vary over the course of time (no control measures)</li>
+</ul>
+<p>Then the equation for $R_{0,i}$ reduces to the following:
+
+$$R_{0,i} = [\beta_i]_{j_i}^{j_i+\frac{1}{\tau_i}} = \frac{\beta_i}{\tau_i}$$
+</p>
+<p>We can see the basic reproduction number of an individual is fully characterized by the $\beta_i$ and the $\tau_i$ of that individual.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="$R_0$-for-a-population">
+<a class="anchor" href="#%24R_0%24-for-a-population" aria-hidden="true"><span class="octicon octicon-link"></span></a>$R_0$ for a population<a class="anchor-link" href="#%24R_0%24-for-a-population"> </a>
+</h3>
+<p>To a generalize toa  population-level, we can simply find the expected value for the equation above:
+
+$$R_0 = E[R_{0,i}] = \frac{E[\beta_i]}{E[\tau_i]}$$
+</p>
+<p>Assuming:</p>
+<ul>
+<li>$E[\beta_i] = \beta$</li>
+<li>$E[\tau_i] = \gamma$</li>
+</ul>
+<p>We can write:
+
+$$R_0 = \frac{\beta}{\gamma}$$
+</p>
 
 </div>
 </div>
