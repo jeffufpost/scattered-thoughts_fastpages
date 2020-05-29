@@ -379,7 +379,6 @@ window.onload = wrap_img;
 <li><strong>E --&gt; Exposed state:</strong></li>
 </ul>
 <p>The exposed state is the state when an individual has been exposed to the disease, but has not become infectious yet.</p>
-<p>It should be noted the <strong>incubation period</strong>, the time between exposure to disease and development of the disease is not necessarily the same as the time between the states E and I. Indeed, an individual may become infectious before the appearance of the symptoms (or at the same time, or after, but not necessarily the same time).</p>
 
 </div>
 </div>
@@ -419,7 +418,7 @@ window.onload = wrap_img;
 <p>In this case, an individual who has been exposed becomes infectious before the development of disease.</p>
 <p>We call this a <strong>subclinical infection</strong> and during that time the individual is called an <strong>asymptomatic carrier</strong>.</p>
 <ul>
-<li>$\underline{T_{Latent} &lt; T_{Incubation}:}$</li>
+<li>$\underline{T_{Latent} &gt; T_{Incubation}:}$</li>
 </ul>
 <p>In other cases, the latent period can be longer than the incubation period, eg: smallpox.</p>
 <ul>
@@ -429,9 +428,9 @@ window.onload = wrap_img;
 <p>Overall, these asymptomatic carriers can be a significant difficutly to overcome epidemics.</p>
 <p><img src="/scattered-thoughts/images/copied_from_nb/my_icons/Concept_of_incubation_period.svg" alt="" title="Wikipedia"></p>
 <ul>
-<li><strong>Basic reproduction number:</strong></li>
+<li>$\underline{Basic\ reproduction\ number:}$</li>
 </ul>
-<p>The basic reproduction number $R_0$ is the measure of secondary infections.</p>
+<p>The basic reproduction number $R_0$ is the measure of secondary infections in a susceptible population.</p>
 <p>In other words, it is the number of people that each infectious individual will infect over the time of their infectious period.</p>
 <p>Example:</p>
 <p>If an infectious individual infects 3 other individuals over the course of his infection, his $R_0$ is 3.</p>
@@ -748,7 +747,7 @@ $$\frac{dr(t)}{dt}=\gamma i(t)$$
 <li>Probability to infect an S after contact given by: $\rho_i$</li>
 <li>Probability of a contact being with an S given by:
 $\frac{S(t)}{N} = s(t)$ </li>
-<li>The period of infectiousness of the individual given by [$j_i, \frac{1}{\tau_i}$]
+<li>The period of infectiousness of the individual given by [$j_i, j_i+\frac{1}{\tau_i}$]
 (where $j_i$ is the first day of infectiousness for that individual and $\frac{1}{\tau_i}$ is that individuals' time of infectiousness)</li>
 </ul>
 <p>Remember $r_i\rho_i=\beta_i$</p>
@@ -815,7 +814,7 @@ $$R_{0,i} = [\beta_i]_{j_i}^{j_i+\frac{1}{\tau_i}} = \frac{\beta_i}{\tau_i}$$
 <h3 id="$R_0$-for-a-population">
 <a class="anchor" href="#%24R_0%24-for-a-population" aria-hidden="true"><span class="octicon octicon-link"></span></a>$R_0$ for a population<a class="anchor-link" href="#%24R_0%24-for-a-population"> </a>
 </h3>
-<p>To a generalize toa  population-level, we can simply find the expected value for the equation above:
+<p>To a generalize to  a  population-level, we can simply find the expected value for the equation above:
 
 $$R_0 = E[R_{0,i}] = \frac{E[\beta_i]}{E[\tau_i]}$$
 </p>
