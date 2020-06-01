@@ -121,7 +121,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      12 min read
+      13 min read
     
 </span></p>
 
@@ -208,6 +208,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#$R_0$-for-a-population">$R_0$ for a population </a></li>
 </ul>
 </li>
+<li class="toc-entry toc-h2"><a href="#Herd-Immunity">Herd Immunity </a></li>
 <li class="toc-entry toc-h2"><a href="#Conclusion">Conclusion </a></li>
 </ul><!--
 #################################################
@@ -228,7 +229,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="/scattered-thoughts/images/copied_from_nb/my_icons/compartmentalization.jpg" alt=""></p>
+<p><img src="https://github.com/jeffufpost/scattered-thoughts/blob/master/_notebooks/my_icons/compartmentalization.jpg?raw=1" alt=""></p>
 
 </div>
 </div>
@@ -827,6 +828,52 @@ $$R_0 = E[R_{0,i}] = \frac{E[\beta_i]}{E[\tau_i]}$$
 
 $$R_0 = \frac{\beta}{\gamma}$$
 </p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Herd-Immunity">
+<a class="anchor" href="#Herd-Immunity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Herd Immunity<a class="anchor-link" href="#Herd-Immunity"> </a>
+</h2>
+<p><em>As just described, $R$ is the measure of secondary infections, and $R_0$ is the measure of secondary infections in a susceptible population.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is easy to understand that if each infectious individual contaminates less than 1 other individual on average ($R &lt; 1$) then the number of infectious individuals will diminish and tend to 0.</p>
+<p>On the other hand, if each infectious individual contaminates more than 1 other individual ($R &gt; 1$) then the number of infectious individuals will rise (chance of epidemic).</p>
+<p><strong>Herd immunity threshold:</strong></p>
+<p>The herd immunity threshold is the point at which enough of the population is immune to the disease (not susceptible) in order to have $R &lt; 1$ and can be calculated as follows:
+
+$$R = R_0 ~ s(t)$$
+</p>
+<p>We know the proportion of the population immune to the disease is:
+
+$$Immune(t) = 1-s(t)$$
+
+
+$$\leftrightarrow\ s(t)=1-Immune(t)$$
+</p>
+<p>The threshold of $R = 1$ is achieved when:
+
+$$R_0 ~s(t) = 1$$
+
+
+$$\leftrightarrow\ R_0 ~(1-Immune(t)) = 1$$
+
+
+$$\leftrightarrow\ 1-Immune(t) = \frac{1}{R_0}$$
+
+
+$$\leftrightarrow\ Immune(t) = 1-\frac{1}{R_0}$$
+</p>
+<p>When the proportion of immune individuals in a population reaches $1-\frac{1}{R_0}$ then $R$ will become smaller than 1 and the number of infectious individuals will diminish and tend to 0.</p>
 
 </div>
 </div>
