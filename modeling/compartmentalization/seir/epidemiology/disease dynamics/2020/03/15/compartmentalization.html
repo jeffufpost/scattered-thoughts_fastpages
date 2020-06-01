@@ -838,7 +838,7 @@ $$R_0 = \frac{\beta}{\gamma}$$
 <h2 id="Herd-Immunity">
 <a class="anchor" href="#Herd-Immunity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Herd Immunity<a class="anchor-link" href="#Herd-Immunity"> </a>
 </h2>
-<p><em>As just described, $R$ is the measure of secondary infections, and $R_0$ is the measure of secondary infections in a susceptible population.</em></p>
+<p><em>As just described, $R$ is the measure of secondary infections, and $R_0$ is the measure of secondary infections in a susceptible population where $R=R_0~s(t)$.</em></p>
 
 </div>
 </div>
@@ -846,8 +846,43 @@ $$R_0 = \frac{\beta}{\gamma}$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It is easy to understand that if each infectious individual contaminates less than 1 other individual on average ($R &lt; 1$) then the number of infectious individuals will diminish and tend to 0.</p>
+<p>It is easy to understand that if each infectious individual contaminates less than 1 other individual on average ($R &lt; 1$) then the number of exposed, and eventually infectious, individuals will diminish and tend to 0.</p>
 <p>On the other hand, if each infectious individual contaminates more than 1 other individual ($R &gt; 1$) then the number of infectious individuals will rise (chance of epidemic).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Mathematical formulation:</strong></p>
+<p>
+$$\frac{d~e(t)}{dt} = \beta~i(t)~s(t) - \gamma~i(t)$$
+
+
+$$\leftrightarrow\frac{d~e(t)}{dt} = R_0~\gamma~i(t)~s(t) - \gamma~i(t)$$
+
+
+$$\leftrightarrow\frac{d~e(t)}{dt} = \gamma~i(t)~(R_0~s(t) - 1)=\gamma~i(t)~(R - 1)$$
+</p>
+<p>And so we find that in a population where $\gammaĩ(t)&gt;0$:
+
+$$\frac{d~e(t)}{dt} = 0$$
+
+
+$$\leftrightarrow R-1 = 0$$
+
+
+$$\leftrightarrow R = 1$$
+</p>
+<p>If $R&lt;1$ then $\frac{d~e(t)}{dt} &lt; 1$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Herd immunity threshold:</strong></p>
 <p>The herd immunity threshold is the point at which enough of the population is immune to the disease (not susceptible) in order to have $R &lt; 1$ and can be calculated as follows:
 
