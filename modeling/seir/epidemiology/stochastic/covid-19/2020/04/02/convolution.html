@@ -121,7 +121,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      11 min read
+      12 min read
     
 </span></p>
 
@@ -973,14 +973,14 @@ $$g = F^{-1} \left(\frac{F\{y\}}{F\{f\}} \right) $$
 <h4 id="Iterative-deconvoluton">
 <a class="anchor" href="#Iterative-deconvoluton" aria-hidden="true"><span class="octicon octicon-link"></span></a>Iterative deconvoluton<a class="anchor-link" href="#Iterative-deconvoluton"> </a>
 </h4>
-<p>Multiple iterative deconvolution algorithms exist: Lucy_Richardson, gold, or Van Cittert among others.</p>
-<p>LR has been used alreadz to get daily incidence of the Spanish flu based on death records in Philadelphia at the time for example.</p>
+<p>Multiple iterative deconvolution algorithms exist: Lucy_Richardson, Gold, or Van Cittert among others.</p>
+<p>LR has already been used to get daily incidence of the Spanish flu based on death records in Philadelphia at the time for example <a href="https://doi.org/10.1073/pnas.0902958106">1</a>.</p>
+<p>An adaptation of those above is used here with the basics below (see code for details):</p>
 <p>Let's use the equation for $I_{pd}$ as an example:
 
 $$I_{pd}[j] = \sum_{n_L=0}^{M_L-1}h_L[n_L]~E_{pd}[j-n_L]= h_L[j]\circledast E_{pd}[j]$$
 </p>
 <p>The idea is that after an initial guess for $E_{pd}$ we can iteraively find a better one.</p>
-<p>We know the mean $T_{Latent}$ is 5.2 days, so it is probably a good initial guess to say $E_{pd,0}[j] = I_{pd}[j-5]$</p>
 
 </div>
 </div>
@@ -1007,6 +1007,15 @@ $$\leftrightarrow E_{pd,n+1} = E_{pd,n} + I_{pd}[j] - h_L[j]\circledast E_{pd, n
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Hence we want to minimze O[j].</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Initial guess</strong></p>
+<p>We know our $h_L$ and $h_I$ are in part simply delay functions, so an initial first guess is to simply use the same signal delayed by the time difference caused by the impulse response.</p>
 
 </div>
 </div>
@@ -1517,15 +1526,16 @@ if (outputEl) {{
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are a lot of papers and research done in the field of deconvolution.</p>
-<p>The theory is skipped here but it is required if we want to use more advanced techniques.</p>
-<p>After doing tis ou might be left wandering, well what's the point ?</p>
+<p>There are a lot of papers and research done in the field of deconvolution in general but I have found only one using it in epidemic models (link above).</p>
+<p>The theory is skipped here but it is required if we want to use more advanced techniques. I may write another blog post with more details.</p>
+<p>After doing this you might be left wondering, well what's the point ?</p>
 <p>A few things:</p>
 <ul>
-<li>If we have daily data of infectious $I_{pd}$ we can then use the deconvolution technique to find an approximation for $E_{pd}$ and thus approximate the value of $\beta$</li>
-<li>We can verify the robusteness of $h_L$ and $h_I$ against real world data.</li>
+<li>If we have daily data of infectious $I_{pd}$ we can then use the deconvolution technique to find an approximation for $E_{pd}$</li>
+<li>If we have a close estimate for $E_{pd}$ we can in turn estimate the value of $\beta$ or $R$</li>
+<li>We can verify the robusteness of $h_L$ and $h_I$ against real world data and how these vary geographically in a pandemic</li>
 </ul>
-<p>Both of these wil be presented in the next blog posts.</p>
+<p>These points will be studied a bit more in the next blog post.</p>
 
 </div>
 </div>
